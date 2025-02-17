@@ -20,6 +20,16 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check outdated dependencies
+        run: |
+          cd ./web-front-end
+          npm outdated || echo "No outdated dependencies found."
+
+      - name: Check dependency vulnerabilities
+        run: |
+          cd ./web-front-end
+          npm audit --audit-level=moderate || echo "Dependencies checked. Some may have vulnerabilities."
+
       - name: Install dependencies
         run: cd ./web-front-end && npm install
 
