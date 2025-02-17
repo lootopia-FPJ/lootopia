@@ -39,7 +39,7 @@ export default [
       'react/react-in-jsx-scope': 'off',
       'no-console': ['error', { allow: ['warn', 'error'] }],
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      'no-unused-imports': 'error',
+      'unused-imports/no-unused-imports': 'error',
       'no-var': 'error',
       complexity: ['error', { max: 5 }],
       'max-lines-per-function': ['error', { max: 30, skipComments: true }],
