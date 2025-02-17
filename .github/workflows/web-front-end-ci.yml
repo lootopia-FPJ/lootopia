@@ -1,0 +1,59 @@
+name: Web Frontend CI
+
+on:
+  push:
+    branches: ['main', 'develop']
+    paths:
+      - 'web-front-end/**' # Déclenche seulement si des fichiers changent dans web-front-end
+  pull_request:
+    branches: ['main', 'develop']
+    paths:
+      - 'web-front-end/**'
+  workflow_dispatch: # Permet de déclencher manuellement
+
+jobs:
+  build:
+    name: Build Web Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web-front-end # Définit le dossier web-front-end par défaut
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Build
+        run: npm run build
+
+  eslint:
+    name: Lint Web Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web-front-end
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
