@@ -1,21 +1,29 @@
-name: CI for Lootopia
+name: CI for Lootopia - Web Frontend
 
 on:
   push:
+    paths:
+      - 'web-front-end/**' # Ne déclenche le pipeline que si des fichiers changent dans web-front-end
     branches:
       - develop
       - main
       - '*'
   pull_request:
+    paths:
+      - 'web-front-end/**'
     branches:
       - develop
       - main
-  workflow_dispatch:
+  workflow_dispatch: # Permet de lancer manuellement depuis GitHub Actions
 
 jobs:
   web-frontend:
-    if: contains(github.event.head_commit.modified, 'web-front-end/')
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: web-front-end # Définit 'web-front-end' comme dossier de travail
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,23 +32,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      - name: Check for outdated dependencies
-        run: |
-          cd web-front-end
-          npm outdated || echo "Dependencies check completed."
+      - name: Check outdated dependencies
+        run: npm outdated || echo "Dependencies check completed."
 
       - name: Install dependencies
-        run: |
-          cd web-front-end
-          npm install
+        run: npm install
 
       - name: Run Linter & Prettier
-        run: |
-          cd web-front-end
-          npm run lint
+        run: npm run lint
 
       - name: Run Build
-        run: |
-          cd web-front-end
-          npm run build
+        run: npm run build
