@@ -2,58 +2,42 @@ name: Web Frontend CI
 
 on:
   push:
-    branches: ['main', 'develop']
-    paths:
-      - 'web-front-end/**' # Déclenche seulement si des fichiers changent dans web-front-end
+    branches:
+      - '*' # ✅ Déclenche sur toutes les branches
   pull_request:
-    branches: ['main', 'develop']
-    paths:
-      - 'web-front-end/**'
-  workflow_dispatch: # Permet de déclencher manuellement
+    branches:
+      - '*' # ✅ Déclenche pour tous les PR
+  workflow_dispatch: # ✅ Permet d'exécuter le workflow manuellement depuis GitHub
 
 jobs:
-  build:
-    name: Build Web Frontend
+  web-frontend:
+    if: contains(github.event.head_commit.modified, 'web-front-end/')
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: web-front-end # Définit le dossier web-front-end par défaut
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+
+      - name: Check for outdated dependencies
+        run: |
+          cd web-front-end
+          npm outdated || echo "Dependencies check completed."
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd web-front-end
+          npm install
+
+      - name: Run Linter & Prettier
+        run: |
+          cd web-front-end
+          npm run lint
 
       - name: Run Build
-        run: npm run build
-
-  eslint:
-    name: Lint Web Frontend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: web-front-end
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run ESLint
-        run: npm run lint
+        run: |
+          cd web-front-end
+          npm run build
