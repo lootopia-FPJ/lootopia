@@ -2,12 +2,9 @@ name: Web Frontend CI
 
 on:
   push:
-    branches:
-      - '*' # ✅ Déclenche sur toutes les branches
+    branches: ['main', 'develop']
   pull_request:
-    branches:
-      - '*' # ✅ Déclenche pour tous les PR
-  workflow_dispatch: # ✅ Permet d'exécuter le workflow manuellement depuis GitHub
+    branches: ['main', 'develop']
 
 jobs:
   eslint:
