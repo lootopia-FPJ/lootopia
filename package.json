@@ -1,0 +1,9 @@
+{
+    "name": "lootopia",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start:back": "cd web-back-end && npm run start",
+        "start:back:dev": "cd web-back-end && npm run start:dev"
+    }
+}
