@@ -1,0 +1,40 @@
+name: Mobile App Frontend CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+
+jobs:
+  eslint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Navigate to project folder
+        run: cd ./mobile-app-front-end/Lootopia
+
+      - name: Check outdated dependencies
+        run: |
+          cd ./mobile-app-front-end/Lootopia
+          npm outdated || echo "No outdated dependencies found."
+
+      - name: Check dependency vulnerabilities
+        run: |
+          cd ./mobile-app-front-end/Lootopia
+          npm audit --audit-level=moderate || echo "Dependencies checked. Some may have vulnerabilities."
+
+      - name: Install dependencies
+        run: cd ./mobile-app-front-end/Lootopia && npm install
+
+      - name: Run ESLint
+        run: cd ./mobile-app-front-end/Lootopia && npm run lint
