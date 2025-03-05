@@ -5,11 +5,14 @@
   font-weight: 500;
   transition: color 0.2s ease-in-out;
 }
-
 .navbar-link:hover {
   color: black;
 }
 
 .title {
   font-weight: bold;
+}
+.navbar-button:hover,
+.navbar-button:focus-within {
+  border: none;
 }

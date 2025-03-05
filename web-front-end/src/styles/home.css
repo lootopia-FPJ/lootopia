@@ -1,0 +1,21 @@
+.home-button {
+  background-color: #913e25;
+}
+
+.home-button:hover {
+  background-color: #91452e;
+  border: none;
+}
+
+.home-btn {
+  background-color: black;
+}
+
+.home-btn:hover {
+  background-color: rgb(37, 37, 37);
+  border: none;
+}
+.home-btn2:hover {
+  border: none;
+  background-color: rgb(233, 232, 232);
+}
