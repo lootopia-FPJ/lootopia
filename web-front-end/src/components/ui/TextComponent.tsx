@@ -7,7 +7,6 @@ interface TextProps {
 }
 
 export default function TextComponent({ children, className, as: Tag = 'p' }: TextProps) {
-  // Styles automatiques en fonction du type de texte
   const defaultStyles = {
     h1: 'text-5xl font-bold',
     h2: 'text-3xl font-semibold',
@@ -15,7 +14,7 @@ export default function TextComponent({ children, className, as: Tag = 'p' }: Te
     h4: 'text-xl font-medium',
     h5: 'text-lg font-medium',
     h6: 'text-base font-medium',
-    p: 'text-lg text-gray-700',
+    p: 'text-lg',
   }
 
   return <Tag className={`${defaultStyles[Tag] || ''} ${className}`}>{children}</Tag>
