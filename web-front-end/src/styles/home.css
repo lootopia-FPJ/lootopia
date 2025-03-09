@@ -15,6 +15,9 @@
   background-color: rgb(37, 37, 37);
   border: none;
 }
+.home-btn2 {
+  background-color: rgb(233, 232, 232);
+}
 .home-btn2:hover {
   border: none;
   background-color: rgb(233, 232, 232);

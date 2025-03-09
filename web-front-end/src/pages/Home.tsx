@@ -104,7 +104,9 @@ export default function Home() {
                 Parcourez des lieux mystérieux, suivez des indices et résolvez des énigmes pour
                 découvrir des artefacts rares dans Lootopia.
               </TextComponent>
-              <Button className=" text-black px-6 py-3 shadow-md">Démarrer votre chasse</Button>
+              <Button className=" text-black px-6 py-3 shadow-md home-btn2">
+                Démarrer votre chasse
+              </Button>
             </div>
             <div className="relative hidden lg:block w-1/2">
               <Img
