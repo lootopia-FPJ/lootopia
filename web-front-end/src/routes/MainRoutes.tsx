@@ -7,6 +7,7 @@ import Events from '../pages/ Events'
 import Partnership from '../pages/Partnership'
 import Boutique from '../pages/Boutique'
 import Contact from '../pages/ Contact'
+import Register from '../pages/Register'
 
 export default function MainRoutes() {
   return (
@@ -21,6 +22,7 @@ export default function MainRoutes() {
             <Route path="/partenariat" element={<Partnership />} />
             <Route path="/boutique" element={<Boutique />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
         <Footer />

@@ -1,0 +1,11 @@
+.img-logo {
+  width: 60%;
+}
+.signup-btn {
+  background-color: black;
+}
+.signup-btn:hover {
+  background-color: gainsboro;
+  color: black;
+  border: none;
+}
