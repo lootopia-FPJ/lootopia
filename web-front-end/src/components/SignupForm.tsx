@@ -11,6 +11,10 @@ import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import logo from '../assets/logo-lootopia.png'
+import ImageComponent from '../components/ui/ImageComponent'
+import TextComponent from '../components/ui/TextComponent'
+
+import axios from 'axios'
 import '../styles/signupForm.css'
 
 const SignupForm = () => {
@@ -40,19 +44,35 @@ const SignupForm = () => {
     }),
     onSubmit: async (values) => {
       try {
-        // eslint-disable-next-line no-console
-        console.log('Form submitted', values)
-        setSubmitted(true)
-        toast.success('Inscription réussie !', { position: 'top-right' })
+        const payload = {
+          email: values.email,
+          password: values.password,
+          name: values.pseudo,
+          type: 'COMMUN',
+        }
+
+        const response = await axios.post('http://localhost:3000/auth/register', payload)
+
+        if (response.status === 201 || response.status === 200) {
+          setSubmitted(true)
+          toast.success('Inscription réussie ! 🎉', { position: 'top-right' })
+        }
       } catch (error) {
-        toast.error('Une erreur est survenue, veuillez réessayer', { position: 'top-right' })
+        if ((error as any).response && (error as any).response.status === 400) {
+          toast.error((error as any).response.data.message || 'Erreur côté serveur.', {
+            position: 'top-right',
+          })
+        } else {
+          toast.error('Erreur lors de l’inscription, réessaye plus tard.', {
+            position: 'top-right',
+          })
+        }
       }
     },
   })
 
   return (
     <div className="h-screen flex flex-col lg:flex-row">
-      {/* Section grise avec le formulaire */}
       <div className="lg:w-1/2 w-full h-full flex items-center justify-center bg-gray-100 px-4 md:px-16">
         <ToastContainer />
         <Card className="w-full max-w-md p-6 shadow-lg">
@@ -62,7 +82,6 @@ const SignupForm = () => {
           <CardContent>
             {!submitted ? (
               <form onSubmit={formik.handleSubmit} className="space-y-4">
-                {/* Pseudo */}
                 <div>
                   <Label htmlFor="pseudo">Pseudo</Label>
                   <Input
@@ -78,8 +97,6 @@ const SignupForm = () => {
                     <div className="text-red-500 text-sm">{formik.errors.pseudo}</div>
                   )}
                 </div>
-
-                {/* Email */}
                 <div>
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -95,8 +112,6 @@ const SignupForm = () => {
                     <div className="text-red-500 text-sm">{formik.errors.email}</div>
                   )}
                 </div>
-
-                {/* Mot de passe */}
                 <div>
                   <Label htmlFor="password">Mot de passe</Label>
                   <Input
@@ -112,8 +127,6 @@ const SignupForm = () => {
                     <div className="text-red-500 text-sm">{formik.errors.password}</div>
                   )}
                 </div>
-
-                {/* Privacy Policy */}
                 <div className="flex items-center">
                   <Checkbox
                     id="privacyPolicy"
@@ -135,15 +148,15 @@ const SignupForm = () => {
                 </Button>
               </form>
             ) : (
-              <p className="text-green-500 text-center">Inscription réussie !</p>
+              <TextComponent className="text-green-500 text-center">
+                Inscription réussie !
+              </TextComponent>
             )}
           </CardContent>
         </Card>
       </div>
-
-      {/* Section blanche avec le logo bien centré et caché sur mobile */}
       <div className="hidden lg:flex w-full lg:w-1/2 h-full items-center justify-center bg-white">
-        <img src={logo} alt="Logo Lootopia" className="object-contain img-logo" />
+        <ImageComponent src={logo} alt="Logo Lootopia" className="img-logo" />
       </div>
     </div>
   )
