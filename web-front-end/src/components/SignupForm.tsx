@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import logo from '../assets/logo-lootopia.png'
 import ImageComponent from '../components/ui/ImageComponent'
 import TextComponent from '../components/ui/TextComponent'
-
 import axios from 'axios'
 import '../styles/signupForm.css'
 
@@ -55,7 +54,9 @@ const SignupForm = () => {
 
         if (response.status === 201 || response.status === 200) {
           setSubmitted(true)
-          toast.success('Inscription réussie ! 🎉', { position: 'top-right' })
+          toast.success('Inscription réussie ! 🎉 Vérifie tes emails pour activer ton compte.', {
+            position: 'top-right',
+          })
         }
       } catch (error) {
         if ((error as any).response && (error as any).response.status === 400) {
@@ -142,14 +143,14 @@ const SignupForm = () => {
                 {formik.touched.privacyPolicy && formik.errors.privacyPolicy && (
                   <div className="text-red-500 text-sm">{formik.errors.privacyPolicy}</div>
                 )}
-
                 <Button type="submit" className="w-full signup-btn">
                   S'inscrire
                 </Button>
               </form>
             ) : (
-              <TextComponent className="text-green-500 text-center">
-                Inscription réussie !
+              <TextComponent className="text-center">
+                Inscription réussie ! Un email t'a été envoyé, vérifie ta boite mail pour activer
+                ton compte.
               </TextComponent>
             )}
           </CardContent>

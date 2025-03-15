@@ -4,14 +4,18 @@ import { Repository } from 'typeorm'
 import { User, UserType } from '../users/entities/user.entity'
 import { UserConsent } from '../users/entities/user-consent.entity'
 import { UserRole, Role } from '../users/entities/user-role.entity'
+import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
+import { EmailService } from '../email/email.service'
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(UserConsent) private consentRepo: Repository<UserConsent>,
-    @InjectRepository(UserRole) private userRoleRepo: Repository<UserRole>
+    @InjectRepository(UserRole) private userRoleRepo: Repository<UserRole>,
+    private jwtService: JwtService,
+    private emailService: EmailService
   ) {}
 
   async register({
@@ -47,17 +51,21 @@ export class AuthService {
 
       const savedUser = await queryRunner.manager.save(user)
 
-      const userConsent = this.consentRepo.create({
-        user: savedUser,
-        privacy_policy_version: '1.1',
-      })
-      await queryRunner.manager.save(userConsent)
+      await queryRunner.manager.save(
+        this.consentRepo.create({
+          user: savedUser,
+          privacy_policy_version: '1.1',
+        })
+      )
 
-      const defaultRole = this.userRoleRepo.create({
-        user: savedUser,
-        role: Role.USER,
-      })
-      await queryRunner.manager.save(defaultRole)
+      await queryRunner.manager.save(
+        this.userRoleRepo.create({
+          user: savedUser,
+          role: Role.USER,
+        })
+      )
+
+      await this.emailService.sendActivationEmail(savedUser.email, savedUser.id)
 
       await queryRunner.commitTransaction()
 
