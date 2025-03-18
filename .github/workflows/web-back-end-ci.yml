@@ -2,7 +2,7 @@ name: Web Backend CI
 
 on:
   push:
-    branches: ['main', 'develop', 'feature/LMD-2']
+    branches: ['main', 'develop']
   pull_request:
     branches: ['main', 'develop']
 

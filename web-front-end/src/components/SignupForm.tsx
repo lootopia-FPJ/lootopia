@@ -17,6 +17,9 @@ import axios from 'axios'
 import '../styles/signupForm.css'
 
 const SignupForm = () => {
+  const REGISTER_URL = import.meta.env.VITE_REGISTER_URL
+  console.log('API URL:', import.meta.env.VITE_REGISTER_URL)
+
   const [submitted, setSubmitted] = useState(false)
 
   const formik = useFormik({
@@ -50,7 +53,7 @@ const SignupForm = () => {
           type: 'COMMUN',
         }
 
-        const response = await axios.post('http://localhost:3000/auth/register', payload)
+        const response = await axios.post(REGISTER_URL, payload)
 
         if (response.status === 201 || response.status === 200) {
           setSubmitted(true)
