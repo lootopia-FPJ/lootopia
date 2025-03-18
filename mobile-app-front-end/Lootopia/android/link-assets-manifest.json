@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Fuggles Regular.ttf",
+      "sha1": "72c3867ca1584c2d6708395375321c081751d54d"
+    },
+    {
+      "path": "src/assets/fonts/Inter.ttf",
+      "sha1": "ee5c2e22ffeddefc433c9aa4c76779bb73a5c682"
+    }
+  ]
+}
