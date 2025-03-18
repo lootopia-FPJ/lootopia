@@ -18,7 +18,6 @@ import '../styles/signupForm.css'
 
 const SignupForm = () => {
   const REGISTER_URL = import.meta.env.VITE_REGISTER_URL
-  console.log('API URL:', import.meta.env.VITE_REGISTER_URL)
 
   const [submitted, setSubmitted] = useState(false)
 
