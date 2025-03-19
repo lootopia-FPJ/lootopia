@@ -1,5 +1,3 @@
-/* eslint-disable max-lines-per-function */
-
 import {
   Injectable,
   BadRequestException,
@@ -26,7 +24,7 @@ export class AuthService {
     private jwtService: JwtService,
     private emailService: EmailService
   ) {}
-
+  // eslint-disable-next-line max-lines-per-function
   async register({
     email,
     password,
