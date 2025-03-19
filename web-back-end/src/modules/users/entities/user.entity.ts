@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm'
-import * as bcrypt from 'bcrypt'
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 import { IsEmail, Matches, MinLength } from 'class-validator'
 
 export enum UserType {
@@ -16,7 +15,7 @@ export class User {
   @IsEmail({}, { message: 'Invalid email format' })
   email!: string
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, select: false })
   @MinLength(8, { message: 'Password must be at least 8 characters long' })
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
     message:
@@ -50,9 +49,4 @@ export class User {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updated_at!: Date
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password_hash = await bcrypt.hash(this.password_hash, 10)
-  }
 }

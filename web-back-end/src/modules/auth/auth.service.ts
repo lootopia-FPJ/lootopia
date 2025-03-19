@@ -1,4 +1,11 @@
-import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common'
+/* eslint-disable max-lines-per-function */
+
+import {
+  Injectable,
+  BadRequestException,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { User, UserType } from '../users/entities/user.entity'
@@ -10,6 +17,8 @@ import { EmailService } from '../email/email.service'
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name)
+
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(UserConsent) private consentRepo: Repository<UserConsent>,
@@ -71,6 +80,7 @@ export class AuthService {
 
       return savedUser
     } catch (error) {
+      this.logger.error('Registration failed', (error as any).stack)
       await queryRunner.rollbackTransaction()
       throw new InternalServerErrorException('Registration failed')
     } finally {

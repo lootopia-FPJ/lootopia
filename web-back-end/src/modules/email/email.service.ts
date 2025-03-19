@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common'
+import { Injectable, BadRequestException, Logger } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -7,6 +7,8 @@ import { User } from '../users/entities/user.entity'
 
 @Injectable()
 export class EmailService {
+  private readonly logger = new Logger(EmailService.name)
+
   constructor(
     private jwtService: JwtService,
     @InjectRepository(User) private userRepo: Repository<User>
@@ -40,21 +42,18 @@ export class EmailService {
 
   async activateAccount(token: string) {
     try {
-      const decoded = this.jwtService.verify(token)
+      const decoded = this.jwtService.verify<{ sub: number }>(token)
       const user = await this.userRepo.findOne({ where: { id: decoded.sub } })
 
       if (!user) throw new BadRequestException('Token invalide')
 
-      if (user.is_active) {
-        throw new BadRequestException('Compte déjà activé')
-      }
-
       user.is_active = true
       await this.userRepo.save(user)
 
-      return { message: 'Compte activé avec succès 🎉' }
-    } catch (err) {
-      throw new BadRequestException('Lien invalide ou expiré')
+      return { message: 'Account activated successfully' }
+    } catch (err: any) {
+      this.logger.error('Error while activating email', err.stack)
+      throw new BadRequestException('Invalid link or expired')
     }
   }
 }
