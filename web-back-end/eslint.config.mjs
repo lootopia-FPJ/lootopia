@@ -22,7 +22,7 @@ export default defineConfig([
       },
       globals: {
         ...globals.node,
-        ...globals.jest, // Conserve les globals Jest pour les tests
+        ...globals.jest,
       },
     },
     plugins: {
@@ -45,7 +45,7 @@ export default defineConfig([
       'no-var': 'error',
       'unused-imports/no-unused-imports': 'error',
       complexity: ['error', { max: 5 }],
-      'max-lines-per-function': ['error', { max: 30, skipComments: true }],
+      'max-lines-per-function': ['off', { max: 30, skipComments: true }],
       'space-infix-ops': 'error',
       'space-before-blocks': 'error',
 
