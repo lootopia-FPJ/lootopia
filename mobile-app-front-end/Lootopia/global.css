@@ -3,3 +3,43 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Inter-Regular';
+    src: url("./src/assets/fonts/Inter.ttf");
+}
+
+.text-primary {
+    color: #333;
+    font-family: 'Inter-Regular';
+    font-size: 16px;
+}
+
+.text-secondary {
+    color: #555;
+    font-size: 14px;
+}
+
+.bg-primary {
+    background-color: #3498db;
+}
+
+.bg-secondary {
+    background-color: #2ecc71;
+}
+
+.btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #2ecc71;
+    color: white;
+}

@@ -1,12 +1,14 @@
 import './global.css';
-import {View, Text} from 'react-native';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import RootNavigator from './src/navigation/RootNavigator';
 
-const App = () => (
-  <View className="flex-1 justify-center items-center bg-gray-200">
-    <Text className="text-red-500 text-lg">
-      Hello, NativeWind with Tailwind!
-    </Text>
-  </View>
-);
+const App = () => {
+  return (
+    <NavigationContainer>
+      <RootNavigator />
+    </NavigationContainer>
+  );
+};
 
 export default App;
