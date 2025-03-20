@@ -1,30 +1,30 @@
+// src/routes/MainRoutes.tsx
 import { Routes, Route } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import MainLayout from '../layouts/MainLayout'
 import Home from '../pages/Home'
 import About from '../pages/About'
-import Events from '../pages/ Events'
+import Events from '../pages/Events'
 import Partnership from '../pages/Partnership'
 import Boutique from '../pages/Boutique'
-import Contact from '../pages/ Contact'
+import Contact from '../pages/Contact'
+import Register from '../pages/Register'
+import AccountActivationPage from '../pages/AccountActivation'
 
-export default function MainRoutes() {
+const MainRoutes = () => {
   return (
-    <>
-      <Navbar />
-      <div className="pt-20 min-h-screen flex flex-col justify-between">
-        <div className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/a-propos" element={<About />} />
-            <Route path="/evenement" element={<Events />} />
-            <Route path="/partenariat" element={<Partnership />} />
-            <Route path="/boutique" element={<Boutique />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </div>
-        <Footer />
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Home />} />
+        <Route path="a-propos" element={<About />} />
+        <Route path="evenement" element={<Events />} />
+        <Route path="partenariat" element={<Partnership />} />
+        <Route path="boutique" element={<Boutique />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="register" element={<Register />} />
+        <Route path="/auth/activate" element={<AccountActivationPage />} />
+      </Route>
+    </Routes>
   )
 }
+
+export default MainRoutes

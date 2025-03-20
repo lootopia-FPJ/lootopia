@@ -3,6 +3,7 @@ import { Button } from '../components/ui/button'
 import Img from '../components/ui/ImageComponent'
 import TextComponent from '../components/ui/TextComponent'
 import NewsCard from '../components/ui/NewsCard'
+import { useNavigate } from 'react-router-dom'
 import logo from '../assets/logo-lootopia.png'
 import androidIcone from '../assets/icons/android-3.png'
 import ios from '../assets/icons/app-store.png'
@@ -14,6 +15,7 @@ import hunt from '../assets/hunt.png'
 import '../styles/home.css'
 
 export default function Home() {
+  const navigate = useNavigate()
   return (
     <>
       <div className="min-h-screen w-screen bg-white">
@@ -27,7 +29,10 @@ export default function Home() {
             </TextComponent>
             <div className="mt-6 flex gap-4">
               <Button className="text-white px-6 py-3 shadow-md home-button">Se connecter</Button>
-              <Button className="bg-black text-white px-6 py-3 shadow-md hover:bg-gray-800 home-btn">
+              <Button
+                className="bg-black text-white px-6 py-3 shadow-md hover:bg-gray-800 home-btn"
+                onClick={() => navigate('/register')}
+              >
                 S'inscrire
               </Button>
             </div>
@@ -104,7 +109,9 @@ export default function Home() {
                 Parcourez des lieux mystérieux, suivez des indices et résolvez des énigmes pour
                 découvrir des artefacts rares dans Lootopia.
               </TextComponent>
-              <Button className=" text-black px-6 py-3 shadow-md">Démarrer votre chasse</Button>
+              <Button className=" text-black px-6 py-3 shadow-md home-btn2">
+                Démarrer votre chasse
+              </Button>
             </div>
             <div className="relative hidden lg:block w-1/2">
               <Img
