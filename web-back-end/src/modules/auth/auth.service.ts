@@ -3,6 +3,7 @@ import {
   BadRequestException,
   InternalServerErrorException,
   Logger,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -74,5 +75,38 @@ export class AuthService {
     } finally {
       await queryRunner.release()
     }
+  }
+
+  async login({ email, password }: { email: string; password: string }) {
+    const user = await this.userRepo.findOne({
+      where: { email },
+      relations: ['roles'],
+      select: ['id', 'email', 'password_hash', 'is_active', 'type'],
+    })
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password')
+    }
+
+    if (!user.is_active) {
+      throw new UnauthorizedException('Your account is not activated. Please check your email.')
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash)
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid email or password')
+    }
+
+    const role = user.roles.length > 0 ? user.roles[0].role : 'USER'
+
+    const token = this.jwtService.sign({
+      sub: user.id,
+      email: user.email,
+      type: user.type,
+      role,
+    })
+
+    return { message: 'Login successful', access_token: token }
   }
 }
