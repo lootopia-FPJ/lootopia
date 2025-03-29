@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - ${DB_PORT:-5432}:5432
+    environment:
+      POSTGRES_USER: ${DB_USER:-lootopia}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-lootopia}
+      POSTGRES_DB: ${DB_NAME:-lootopia}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8888:8080
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
