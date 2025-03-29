@@ -47,14 +47,12 @@ describe('AuthService', () => {
     const existingUser = new User()
     jest.spyOn(userRepo, 'findOne').mockResolvedValue(existingUser)
 
-    const newUser = new RegisterUserDto();
-    newUser.email = 'test@example.com',
-    newUser.password = 'password',
-    newUser.name = 'Test User',
+    const newUser = new RegisterUserDto()
+    newUser.email = 'test@example.com'
+    newUser.password = 'password'
+    newUser.name = 'Test User'
     newUser.type = UserType.COMMUN
 
-    await expect(
-      service.register(newUser)
-    ).rejects.toThrow(BadRequestException)
+    await expect(service.register(newUser)).rejects.toThrow(BadRequestException)
   })
 })
