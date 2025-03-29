@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User, UserType } from '../users/entities/user.entity'
-import { UserConsent } from '../users/entities/user-consent.entity'
-import { UserRole, Role } from '../users/entities/user-role.entity'
-import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { EmailService } from '../email/email.service'
+import User from '../users/entities/user.entity'
+import UserConsent from '../users/entities/user-consent.entity'
+import { RegisterUserDto } from './dto/register-user.dto'
+import { Role, RoleName } from '../users/entities/role.entity'
 
 @Injectable()
 export class AuthService {
@@ -20,23 +20,12 @@ export class AuthService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(UserConsent) private consentRepo: Repository<UserConsent>,
-    @InjectRepository(UserRole) private userRoleRepo: Repository<UserRole>,
-    private jwtService: JwtService,
+    @InjectRepository(Role) private roleRepo: Repository<Role>,
     private emailService: EmailService
   ) {}
 
-  async register({
-    email,
-    password,
-    name,
-    type,
-  }: {
-    email: string
-    password: string
-    name: string
-    type: string
-  }) {
-    const existingUser = await this.userRepo.findOne({ where: { email } })
+  async register(registerUserDto: RegisterUserDto) {
+    const existingUser = await this.userRepo.findOne({ where: { email: registerUserDto.email } })
     if (existingUser) {
       throw new BadRequestException('User already exists')
     }
@@ -46,15 +35,23 @@ export class AuthService {
     await queryRunner.startTransaction()
 
     try {
-      const hashedPassword = await bcrypt.hash(password, 10)
+      const hashedPassword = await bcrypt.hash(registerUserDto.password, 10)
+
+      const role = await this.roleRepo.findOne({ where: { name: RoleName.USER } })
+
+      if (!role) {
+        throw new InternalServerErrorException('Role not found')
+      }
 
       const user = this.userRepo.create({
-        email,
+        email: registerUserDto.email,
         password_hash: hashedPassword,
-        nickname: name,
-        type: type as UserType,
+        nickname: registerUserDto.name,
+        type: registerUserDto.type,
         is_active: false,
       })
+
+      user.roles = [role]
 
       const savedUser = await queryRunner.manager.save(user)
 
@@ -62,13 +59,6 @@ export class AuthService {
         this.consentRepo.create({
           user: savedUser,
           privacy_policy_version: '1.1',
-        })
-      )
-
-      await queryRunner.manager.save(
-        this.userRoleRepo.create({
-          user: savedUser,
-          role: Role.USER,
         })
       )
 

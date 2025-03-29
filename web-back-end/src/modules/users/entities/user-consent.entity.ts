@@ -6,10 +6,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm'
-import { User } from './user.entity'
+import User from './user.entity'
 
 @Entity('user_consent')
-export class UserConsent {
+export default class UserConsent {
   @PrimaryGeneratedColumn()
   id!: number
 

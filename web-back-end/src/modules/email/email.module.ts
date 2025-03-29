@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common'
 import { EmailService } from './email.service'
 import { JwtModule } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { User } from '../users/entities/user.entity'
+import User from '../users/entities/user.entity'
+import { config } from 'dotenv'
+
+config()
 
 @Module({
   imports: [

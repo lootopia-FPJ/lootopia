@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
-import { IsEmail, Matches, MinLength } from 'class-validator'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm'
+import { Role } from './role.entity'
 
 export enum UserType {
   COMMUN = 'COMMUN',
@@ -7,20 +7,14 @@ export enum UserType {
 }
 
 @Entity()
-export class User {
+export default class User {
   @PrimaryGeneratedColumn()
   id!: number
 
   @Column({ unique: true })
-  @IsEmail({}, { message: 'Invalid email format' })
   email!: string
 
   @Column({ type: 'varchar', length: 255, select: false })
-  @MinLength(8, { message: 'Password must be at least 8 characters long' })
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-    message:
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-  })
   password_hash!: string
 
   @Column({ nullable: true })
@@ -49,4 +43,12 @@ export class User {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updated_at!: Date
+
+  @ManyToMany(() => Role, { cascade: true, eager: true })
+  @JoinTable({
+    name: 'user_role',
+    joinColumn: { name: 'user_id' },
+    inverseJoinColumn: { name: 'role_id' },
+  })
+  roles!: Role[]
 }
