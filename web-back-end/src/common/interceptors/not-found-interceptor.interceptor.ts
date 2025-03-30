@@ -5,6 +5,7 @@ import {
   NestInterceptor,
   NotFoundException,
 } from '@nestjs/common'
+import { Request } from 'express'
 import { Observable, tap } from 'rxjs'
 
 @Injectable()
@@ -13,7 +14,7 @@ export class NotFoundInterceptorInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap((data) => {
         if (!data) {
-          throw buildError(context.switchToHttp().getRequest().originalUrl)
+          throw buildError(context.switchToHttp().getRequest<Request>().originalUrl)
         }
       })
     )
