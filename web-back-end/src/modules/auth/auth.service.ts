@@ -111,6 +111,6 @@ export class AuthService {
       maxAge: 86400000,
     })
 
-    return { message: 'Login successful' }
+    return { message: 'Login successful', accessToken: token }
   }
 }
