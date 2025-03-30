@@ -28,7 +28,12 @@ export default function Home() {
               Find teaser hunt games near you
             </TextComponent>
             <div className="mt-6 flex gap-4">
-              <Button className="text-white px-6 py-3 shadow-md home-button">Se connecter</Button>
+              <Button
+                className="text-white px-6 py-3 shadow-md home-button"
+                onClick={() => navigate('/login')}
+              >
+                Se connecter
+              </Button>
               <Button
                 className="bg-black text-white px-6 py-3 shadow-md hover:bg-gray-800 home-btn"
                 onClick={() => navigate('/register')}

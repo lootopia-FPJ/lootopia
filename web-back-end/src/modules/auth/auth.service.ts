@@ -13,6 +13,7 @@ import User from '../users/entities/user.entity'
 import UserConsent from '../users/entities/user-consent.entity'
 import { RegisterUserDto } from './dto/register-user.dto'
 import { Role, RoleName } from '../users/entities/role.entity'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,8 @@ export class AuthService {
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(UserConsent) private consentRepo: Repository<UserConsent>,
     @InjectRepository(Role) private roleRepo: Repository<Role>,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private jwtService: JwtService
   ) {}
 
   async register(registerUserDto: RegisterUserDto) {
@@ -98,7 +100,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password')
     }
 
-    const role = user.roles.length > 0 ? user.roles[0].role : 'USER'
+    const role = user.roles.length > 0 ? user.roles[0].name : 'USER'
 
     const token = this.jwtService.sign({
       sub: user.id,
