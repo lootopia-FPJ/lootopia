@@ -39,7 +39,7 @@ export class EmailService {
       }
     )
 
-    const activationLink = `http://localhost:5173/api/auth/activate?token=${token}`
+    const activationLink = `http://localhost:5173/auth/activate?token=${token}`
 
     const mailOptions = {
       from: `Lootopia <${this.configService.get('EMAIL_USER')}>`,
