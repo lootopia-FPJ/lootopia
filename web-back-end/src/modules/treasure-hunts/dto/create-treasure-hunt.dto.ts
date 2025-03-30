@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator'
+import { IsEnum, IsNotEmpty, IsOptional, Max, Min } from 'class-validator'
 import { RewardType } from '../entities/treasure-hunt.entity'
 
 export class CreateTreasureHuntDto {
@@ -32,6 +32,11 @@ export class CreateTreasureHuntDto {
 
   @IsNotEmpty()
   digging_cost!: number
+
+  @IsNotEmpty()
+  @Min(1)
+  @Max(10)
+  difficulty!: number
 
   @IsOptional()
   is_draft: boolean = false
