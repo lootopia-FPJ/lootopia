@@ -14,6 +14,7 @@ import UserConsent from '../users/entities/user-consent.entity'
 import { RegisterUserDto } from './dto/register-user.dto'
 import { Role, RoleName } from '../users/entities/role.entity'
 import { JwtService } from '@nestjs/jwt'
+import { Response } from 'express'
 
 @Injectable()
 export class AuthService {
@@ -79,25 +80,19 @@ export class AuthService {
     }
   }
 
-  async login({ email, password }: { email: string; password: string }) {
+  async login(loginDto: { email: string; password: string }, res: Response) {
     const user = await this.userRepo.findOne({
-      where: { email },
+      where: { email: loginDto.email },
       relations: ['roles'],
       select: ['id', 'email', 'password_hash', 'is_active', 'type'],
     })
 
-    if (!user) {
+    if (!user || !(await bcrypt.compare(loginDto.password, user.password_hash))) {
       throw new UnauthorizedException('Invalid email or password')
     }
 
     if (!user.is_active) {
-      throw new UnauthorizedException('Your account is not activated. Please check your email.')
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password_hash)
-
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid email or password')
+      throw new UnauthorizedException('Your account is not activated.')
     }
 
     const role = user.roles.length > 0 ? user.roles[0].name : 'USER'
@@ -109,6 +104,13 @@ export class AuthService {
       role,
     })
 
-    return { message: 'Login successful', access_token: token }
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 86400000, // 1 jour
+    })
+
+    return { message: 'Login successful' }
   }
 }
