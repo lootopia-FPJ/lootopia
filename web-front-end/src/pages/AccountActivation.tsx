@@ -13,7 +13,7 @@ const AccountActivationPage = () => {
     if (token) {
       const activateAccount = async () => {
         try {
-          await axios.get(`http://localhost:3000/auth/activate?token=${token}`)
+          await axios.get(`http://localhost:3000/api/auth/activate?token=${token}`)
         } catch (error) {}
       }
 
