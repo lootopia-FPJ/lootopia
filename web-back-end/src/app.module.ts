@@ -7,11 +7,11 @@ import { TreasureHuntsModule } from './modules/treasure-hunts/treasure-hunts.mod
 import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [DbModule, AuthModule, UsersModule, TreasureHuntsModule],
   imports: [
     DbModule,
     AuthModule,
     UsersModule,
+    TreasureHuntsModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
