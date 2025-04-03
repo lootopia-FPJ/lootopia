@@ -2,13 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { AuthService } from '../../src/modules/auth/auth.service'
-import User from '../../src/modules/users/entities/user.entity'
+import User, { UserType } from '../../src/modules/users/entities/user.entity'
 import UserConsent from '../../src/modules/users/entities/user-consent.entity'
 import { EmailService } from '../../src/modules/email/email.service'
 import { BadRequestException } from '@nestjs/common'
-import { UserType } from '../../src/modules/users/entities/user.entity'
 import { RegisterUserDto } from '../../src/modules/auth/dto/register-user.dto'
 import { Role } from '../../src/modules/users/entities/role.entity'
+import { JwtService } from '@nestjs/jwt'
 
 describe('AuthService', () => {
   let service: AuthService
@@ -34,6 +34,12 @@ describe('AuthService', () => {
           provide: EmailService,
           useValue: {
             sendActivationEmail: jest.fn(),
+          },
+        },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn().mockReturnValue('fake-jwt-token'),
           },
         },
       ],
