@@ -10,9 +10,12 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import coffre from '../assets/coffre2.png'
 import ImageComponent from '../components/ui/ImageComponent'
+import axios from 'axios'
 import '../styles/signupForm.css'
 
 const SigninForm = () => {
+  const LOGIN_URL = import.meta.env.VITE_LOGIN_URL
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -22,11 +25,28 @@ const SigninForm = () => {
       email: Yup.string().email('Email invalide').required("L'email est requis"),
       password: Yup.string().required('Le mot de passe est requis'),
     }),
-    onSubmit: (values) => {
-      toast.success('Connexion réussie (statique)! 🎉', {
-        position: 'top-right',
-      })
-      console.log('Données du formulaire:', values)
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(
+          LOGIN_URL,
+          {
+            email: values.email,
+            password: values.password,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        if (response && response.data?.message === 'Login successful') {
+          toast.success('Connexion réussie 🎉', {
+            position: 'top-right',
+          })
+        }
+      } catch (error) {
+        toast.error((error as any)?.response?.data?.message || 'Erreur lors de la connexion', {
+          position: 'top-right',
+        })
+      }
     },
   })
 
