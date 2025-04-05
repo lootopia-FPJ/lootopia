@@ -53,11 +53,18 @@ export default class TreasureHunt {
   @Column({ default: false })
   is_draft!: boolean
 
+  @Column()
+  difficulty!: number
+
   @ManyToOne(() => User)
   created_by!: User
 
   @ManyToMany(() => User)
-  @JoinTable()
+  @JoinTable({
+    name: 'treasure_hunt_participants_user',
+    joinColumn: { name: 'treasure_hunt_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
   participants!: User[]
 
   @CreateDateColumn()

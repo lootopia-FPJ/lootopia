@@ -33,25 +33,26 @@ export class TreasureHuntsService {
       digging_delay: createTreasureHuntDto.digging_delay,
       digging_cost: createTreasureHuntDto.digging_cost,
       is_draft: createTreasureHuntDto.is_draft,
+      difficulty: createTreasureHuntDto.difficulty,
       created_by: creator,
     })
 
     return this.treasureHuntRepository.save(treasureHunt)
   }
 
-  findAll() {
-    return this.treasureHuntRepository.find({
+  async findAll() {
+    return await this.treasureHuntRepository.find({
       where: { is_draft: false },
       loadRelationIds: true,
     })
   }
 
-  findOne(id: number) {
-    return this.treasureHuntRepository.findOneBy({ id })
+  async findOne(id: number) {
+    return await this.treasureHuntRepository.findOneBy({ id })
   }
 
-  update(id: number, updateTreasureHuntDto: UpdateTreasureHuntDto) {
-    return this.treasureHuntRepository.update(id, {
+  async update(id: number, updateTreasureHuntDto: UpdateTreasureHuntDto) {
+    return await this.treasureHuntRepository.update(id, {
       name: updateTreasureHuntDto.name,
       description: updateTreasureHuntDto.description,
       is_real_world: updateTreasureHuntDto.is_real_world,
@@ -63,10 +64,11 @@ export class TreasureHuntsService {
       digging_delay: updateTreasureHuntDto.digging_delay,
       digging_cost: updateTreasureHuntDto.digging_cost,
       is_draft: updateTreasureHuntDto.is_draft,
+      difficulty: updateTreasureHuntDto.difficulty,
     })
   }
 
-  remove(id: number) {
-    return this.treasureHuntRepository.delete(id)
+  async remove(id: number) {
+    return await this.treasureHuntRepository.delete(id)
   }
 }
