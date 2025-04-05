@@ -9,6 +9,7 @@ import Boutique from '../pages/Boutique'
 import Contact from '../pages/Contact'
 import Register from '../pages/Register'
 import AccountActivationPage from '../pages/AccountActivation'
+import Login from '../pages/Login'
 
 const MainRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const MainRoutes = () => {
         <Route path="contact" element={<Contact />} />
         <Route path="register" element={<Register />} />
         <Route path="/auth/activate" element={<AccountActivationPage />} />
+        <Route path="login" element={<Login />} />
       </Route>
     </Routes>
   )

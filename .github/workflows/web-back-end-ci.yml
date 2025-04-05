@@ -38,3 +38,26 @@ jobs:
 
       - name: Run prettier
         run: cd ./web-back-end && npm run format
+
+  unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: eslint
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: cd ./web-back-end && npm install
+
+      - name: Run unit tests
+        run: cd ./web-back-end && npm run test
+
+      - name: Run unit tests with coverage
+        run: cd ./web-back-end && npm run test:cov

@@ -1,59 +1,83 @@
-import { Injectable, BadRequestException, Logger } from '@nestjs/common'
+import {
+  Injectable,
+  BadRequestException,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import * as nodemailer from 'nodemailer'
 import User from '../users/entities/user.entity'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name)
+  private transporter: nodemailer.Transporter
 
   constructor(
     private jwtService: JwtService,
+    private configService: ConfigService,
     @InjectRepository(User) private userRepo: Repository<User>
-  ) {}
-
-  async sendActivationEmail(email: string, userId: number) {
-    const token = this.jwtService.sign({ sub: userId }, { expiresIn: '24h' })
-
-    const transporter = nodemailer.createTransport({
+  ) {
+    this.transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: this.configService.get('EMAIL_USER'),
+        pass: this.configService.get('EMAIL_PASS'),
       },
     })
+  }
+
+  async sendActivationEmail(email: string, userId: number) {
+    const token = this.jwtService.sign(
+      { sub: userId },
+      {
+        secret: this.configService.get('JWT_SECRET'),
+        expiresIn: '24h',
+      }
+    )
 
     const activationLink = `http://localhost:5173/auth/activate?token=${token}`
 
-    await transporter.sendMail({
-      from: `Lootopia <${process.env.EMAIL_USER}>`,
+    const mailOptions = {
+      from: `Lootopia <${this.configService.get('EMAIL_USER')}>`,
       to: email,
-      subject: 'Active ton compte Lootopia 🎉',
+      subject: 'Activate your Lootopia account 🎉',
       html: `
-        <p>Bienvenue sur Lootopia!</p>
-        <p>Clique sur ce lien pour activer ton compte :</p>
-        <a href="${activationLink}">Activer mon compte</a>
-        <p>Le lien expire dans 24 heures.</p>
+        <p>Welcome to Lootopia!</p>
+        <p>Click the link below to activate your account:</p>
+        <a href="${activationLink}">Activate my account</a>
+        <p>This link will expire in 24 hours.</p>
       `,
-    })
+    }
+
+    try {
+      const result = await this.transporter.sendMail(mailOptions)
+      this.logger.log(`Activation email sent successfully: ${result.messageId}`)
+    } catch (error) {
+      this.logger.error('Failed to send activation email', error)
+      throw new InternalServerErrorException('Unable to send activation email')
+    }
   }
 
   async activateAccount(token: string) {
     try {
-      const decoded = this.jwtService.verify<{ sub: number }>(token)
-      const user = await this.userRepo.findOne({ where: { id: decoded.sub } })
+      const decoded = this.jwtService.verify<{ sub: number }>(token, {
+        secret: this.configService.get('JWT_SECRET'),
+      })
 
-      if (!user) throw new BadRequestException('Token invalide')
+      const user = await this.userRepo.findOne({ where: { id: decoded.sub } })
+      if (!user) throw new BadRequestException('Invalid token')
 
       user.is_active = true
       await this.userRepo.save(user)
 
       return { message: 'Account activated successfully' }
     } catch (err: any) {
-      this.logger.error('Error while activating email', err.stack)
-      throw new BadRequestException('Invalid link or expired')
+      this.logger.error('Error during account activation', err.stack)
+      throw new BadRequestException('Invalid or expired activation link')
     }
   }
 }

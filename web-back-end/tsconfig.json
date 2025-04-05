@@ -18,7 +18,10 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "strictBindCallApply": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "baseUrl": "./"
   },
   "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules"]
