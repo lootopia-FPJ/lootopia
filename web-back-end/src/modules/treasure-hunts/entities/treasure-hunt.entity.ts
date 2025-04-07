@@ -6,10 +6,12 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 import User from '../../users/entities/user.entity'
+import Cache from '../../caches/entities/cache.entity'
 
 export enum RewardType {
   INTERNAL = 'internal',
@@ -74,4 +76,7 @@ export default class TreasureHunt {
 
   @UpdateDateColumn()
   updated_at!: Date
+
+  @OneToMany(() => Cache, (cache) => cache.treasure_hunt, { cascade: true })
+  caches!: Cache[]
 }
