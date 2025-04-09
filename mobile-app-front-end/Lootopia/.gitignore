@@ -85,3 +85,5 @@ obj/
 *.nuget.dgspec.json
 *.FileListAbsolute.txt
 *.sourcelink.json
+
+.env

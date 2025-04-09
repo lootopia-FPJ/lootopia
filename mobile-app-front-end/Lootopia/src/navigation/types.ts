@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Dashboard: undefined;
   TreasureHunts: undefined;
   TreasureHuntDetails: {id: number};
+  EditMap: undefined;
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<

@@ -6,6 +6,7 @@ import ForgotPasswordScreen from '../screens/forgot-password/ForgotPasswordScree
 import DashboardScreen from '../screens/dashboard/DashboardScreen';
 import TreasureHuntsScreen from '../screens/treasure-hunt/TreasureHuntsScreen';
 import TreasureHuntDetailsScreen from '../screens/treasure-hunt/TreasureHuntDetailsScreen';
+import MapEditorScreen from '../screens/map-editor/MapEditorScreen';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +52,7 @@ const RootNavigator = () => (
         headerShown: true,
       }}
     />
+    <Stack.Screen name="EditMap" component={MapEditorScreen} />
   </Stack.Navigator>
 );
 
