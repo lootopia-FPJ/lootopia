@@ -10,10 +10,12 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import coffre from '../assets/coffre2.png'
 import ImageComponent from '../components/ui/ImageComponent'
+import { useUser } from '../hooks/UserContext'
 import axios from 'axios'
 import '../styles/signupForm.css'
 
 const SigninForm = () => {
+  const { setUser } = useUser()
   const LOGIN_URL = import.meta.env.VITE_LOGIN_URL
 
   const formik = useFormik({
@@ -38,9 +40,11 @@ const SigninForm = () => {
           }
         )
         if (response && response.data?.message === 'Login successful') {
+          setUser(response.data.user)
           toast.success('Connexion réussie 🎉', {
             position: 'top-right',
           })
+          // setUser(response.data.user ?? null)
         }
       } catch (error) {
         toast.error((error as any)?.response?.data?.message || 'Erreur lors de la connexion', {
