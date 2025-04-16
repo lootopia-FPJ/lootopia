@@ -32,7 +32,7 @@ export default function Navbar() {
           {user && (
             <>
               <li>
-                <Link to="/profil" className="navbar-link">
+                <Link to="/profile" className="navbar-link">
                   <Button variant="ghost" className="navbar-button flex items-center space-x-2">
                     <UserCheck size={22} />
                     <span className="text-sm">Profil</span>

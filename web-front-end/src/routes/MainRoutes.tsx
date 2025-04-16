@@ -10,6 +10,8 @@ import Contact from '../pages/Contact'
 import Register from '../pages/Register'
 import AccountActivationPage from '../pages/AccountActivation'
 import Login from '../pages/Login'
+import Profile from '../pages/Profile'
+import PrivateRoute from '../components/PrivateRoute'
 
 const MainRoutes = () => {
   return (
@@ -24,6 +26,14 @@ const MainRoutes = () => {
         <Route path="register" element={<Register />} />
         <Route path="/auth/activate" element={<AccountActivationPage />} />
         <Route path="login" element={<Login />} />
+        <Route
+          path="profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
       </Route>
     </Routes>
   )

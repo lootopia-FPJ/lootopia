@@ -84,7 +84,7 @@ export class AuthService {
     const user = await this.userRepo.findOne({
       where: { email: loginDto.email },
       relations: ['roles'],
-      select: ['id', 'email', 'password_hash', 'is_active', 'type'],
+      select: ['id', 'email', 'nickname', 'password_hash', 'is_active', 'type'],
     })
 
     if (!user || !(await bcrypt.compare(loginDto.password, user.password_hash))) {
@@ -119,6 +119,7 @@ export class AuthService {
         email: user.email,
         type: user.type,
         role,
+        nickname: user.nickname,
       },
     }
   }

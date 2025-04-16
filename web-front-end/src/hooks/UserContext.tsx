@@ -8,6 +8,7 @@ export interface User {
   email: string
   role: string
   type: string
+  nickname: string
 }
 
 const UserContext = createContext<{
@@ -69,5 +70,4 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   return <UserContext.Provider value={{ user, setUser, logout }}>{children}</UserContext.Provider>
 }
 
-// Hook pour accéder au contexte
 export const useUser = () => useContext(UserContext)
