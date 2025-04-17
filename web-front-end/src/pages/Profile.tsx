@@ -1,9 +1,12 @@
 /* eslint-disable max-lines-per-function */
 import { useUser } from '../hooks/UserContext'
 import { Button } from '../components/ui/button'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   const { user } = useUser()
+  console.log('user', user?.nickname)
+  const navigate = useNavigate()
 
   if (!user) return null
 
@@ -12,13 +15,19 @@ const Profile = () => {
       {/* Sidebar */}
       <aside className="w-full lg:w-1/4 bg-white shadow-md p-6 flex flex-col gap-4">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Actions</h2>
-        <Button className="bg-blue-600 hover:bg-blue-700 w-full text-left">
+        <Button
+          variant="primary"
+          className="w-full text-left"
+          onClick={() => navigate('/edit-profile')}
+        >
           ✏️ Modifier le profil
         </Button>
-        <Button className="bg-red-600 hover:bg-red-700 w-full text-left">
+
+        <Button variant="destructive" className="w-full text-left">
           🗑️ Supprimer le compte
         </Button>
-        <Button className="bg-secondary  bg-green-600 hover:bg-green-700 w-full text-left">
+
+        <Button variant="primary" className="w-full text-left">
           ➕ Ajouter une chasse
         </Button>
       </aside>

@@ -97,7 +97,7 @@ export default function Navbar() {
           {user && (
             <>
               <Link
-                to="/profil"
+                to="/profile"
                 className="navbar-link text-lg flex items-center space-x-2"
                 onClick={() => setIsOpen(false)}
               >

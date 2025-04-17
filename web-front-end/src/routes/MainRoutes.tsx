@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 // src/routes/MainRoutes.tsx
 import { Routes, Route } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
@@ -12,6 +13,7 @@ import AccountActivationPage from '../pages/AccountActivation'
 import Login from '../pages/Login'
 import Profile from '../pages/Profile'
 import PrivateRoute from '../components/PrivateRoute'
+import EditProfile from '../pages/EditProfile'
 
 const MainRoutes = () => {
   return (
@@ -31,6 +33,14 @@ const MainRoutes = () => {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="edit-profile"
+          element={
+            <PrivateRoute>
+              <EditProfile />
             </PrivateRoute>
           }
         />
