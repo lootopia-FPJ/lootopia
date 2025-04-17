@@ -56,7 +56,6 @@ const EditProfileForm = () => {
           profile_picture: imageUrl,
         }
 
-        // TODO: Envoyer `payload` à ton backend pour mettre à jour le profil
         console.log('✅ Données envoyées :', payload)
       } catch (error) {
         console.error('❌ Erreur lors de la mise à jour du profil:', error)
