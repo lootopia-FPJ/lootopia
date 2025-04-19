@@ -1,11 +1,13 @@
 import { IsNotEmpty, MinLength, Matches } from 'class-validator'
 
 export class ChangePasswordDto {
-  @IsNotEmpty()
-  @MinLength(8)
-  @Matches(/[A-Z]/, { message: 'Au moins une majuscule' })
-  @Matches(/[a-z]/, { message: 'Au moins une minuscule' })
-  @Matches(/[0-9]/, { message: 'Au moins un chiffre' })
-  @Matches(/[@$!%*?&]/, { message: 'Au moins un caractère spécial' })
+  @IsNotEmpty({ message: 'Password is required' })
+  @MinLength(8, { message: 'Password must be at least 8 characters long' })
+  @Matches(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
+  @Matches(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
+  @Matches(/[0-9]/, { message: 'Password must contain at least one digit' })
+  @Matches(/[@$!%*?&]/, {
+    message: 'Password must contain at least one special character (@$!%*?&)',
+  })
   newPassword!: string
 }
