@@ -44,7 +44,6 @@ const SigninForm = () => {
           toast.success('Connexion réussie 🎉', {
             position: 'top-right',
           })
-          // setUser(response.data.user ?? null)
         }
       } catch (error) {
         toast.error((error as any)?.response?.data?.message || 'Erreur lors de la connexion', {
@@ -99,6 +98,7 @@ const SigninForm = () => {
               <Button type="submit" className="w-full signup-btn">
                 Se connecter
               </Button>
+              <span>mot de passe oublié</span>
             </form>
           </CardContent>
         </Card>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-lines-per-function */
 // src/hooks/UserContext.tsx
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -9,6 +10,8 @@ export interface User {
   role: string
   type: string
   nickname: string
+  profile_picture: string
+  phone_number: string
 }
 
 const UserContext = createContext<{

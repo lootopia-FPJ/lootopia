@@ -30,7 +30,6 @@ const ModalChangePassword = ({ open, onClose }: ModalChangePasswordProps) => {
         .required('Confirmation requise'),
     }),
     onSubmit: (values) => {
-      console.log('🔐 Nouveau mot de passe =>', values.newPassword)
       onClose()
     },
   })

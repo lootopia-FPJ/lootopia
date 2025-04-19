@@ -1,14 +1,18 @@
 /* eslint-disable max-lines-per-function */
 import { useUser } from '../hooks/UserContext'
 import { Button } from '../components/ui/button'
+import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar'
 import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   const { user } = useUser()
-  console.log('user', user?.nickname)
   const navigate = useNavigate()
 
   if (!user) return null
+
+  const profileUrl =
+    user.profile_picture ||
+    'https://res.cloudinary.com/dfqxbwfnc/image/upload/v1744917478/307ce493-b254-4b2d-8ba4-d12c080d6651_nwu9zy.jpg'
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col lg:flex-row bg-gray-50">
@@ -36,6 +40,14 @@ const Profile = () => {
       <main className="flex-1 p-8 flex items-center justify-center">
         <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">👤 Mon Profil</h1>
+
+          {/* Avatar centré */}
+          <div className="flex justify-center mb-6">
+            <Avatar className="w-28 h-28">
+              <AvatarImage src={profileUrl} alt="Photo de profil" className="object-cover" />
+              <AvatarFallback>{user.nickname?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+            </Avatar>
+          </div>
 
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b pb-3">
