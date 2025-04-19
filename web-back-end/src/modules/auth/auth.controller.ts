@@ -47,6 +47,7 @@ export class AuthController {
     return this.emailService.activateAccount(token)
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('jwt', {

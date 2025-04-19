@@ -1,10 +1,12 @@
 /* eslint-disable max-lines-per-function */
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import axios from 'axios'
+import { useUser } from '../hooks/UserContext'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
 
 interface ModalChangePasswordProps {
   open: boolean
@@ -12,6 +14,8 @@ interface ModalChangePasswordProps {
 }
 
 const ModalChangePassword = ({ open, onClose }: ModalChangePasswordProps) => {
+  const { user } = useUser()
+
   const formik = useFormik({
     initialValues: {
       newPassword: '',
@@ -29,8 +33,19 @@ const ModalChangePassword = ({ open, onClose }: ModalChangePasswordProps) => {
         .oneOf([Yup.ref('newPassword')], 'Les mots de passe ne correspondent pas')
         .required('Confirmation requise'),
     }),
-    onSubmit: (values) => {
-      onClose()
+    onSubmit: async (values) => {
+      try {
+        await axios.patch(
+          `http://localhost:3000/api/users/${user.id}/password`,
+          { newPassword: values.newPassword },
+          { withCredentials: true }
+        )
+
+        onClose()
+        formik.resetForm()
+      } catch (error) {
+        console.error(error)
+      }
     },
   })
 
@@ -73,7 +88,7 @@ const ModalChangePassword = ({ open, onClose }: ModalChangePasswordProps) => {
             )}
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button variant="ghost" type="submit" className="w-full">
             ✅ Confirmer
           </Button>
         </form>

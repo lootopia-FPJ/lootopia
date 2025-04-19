@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { Repository } from 'typeorm'
 import User from './entities/user.entity'
 import { InjectRepository } from '@nestjs/typeorm'
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
@@ -49,5 +50,20 @@ export class UsersService {
       throw new NotFoundException(`User with ${id} is undefined`)
     }
     return { message: 'user delted with success' }
+  }
+
+  async changePassword(id: number, newPassword: string) {
+    const user = await this.userRepository.findOneBy({ id })
+
+    if (!user) {
+      throw new NotFoundException(`User with ${id} is undefined`)
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+    user.password_hash = hashedPassword
+    user.updated_at = new Date()
+
+    return this.userRepository.save(user)
   }
 }
