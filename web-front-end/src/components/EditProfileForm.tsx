@@ -68,7 +68,7 @@ const EditProfileForm = () => {
           profile_picture: imageUrl,
         }
 
-        const response = await axios.patch(`http://localhost:3000/api/users/${user.id}`, payload, {
+        const response = await axios.patch(`${import.meta.env.VITE_USER_URL}/${user.id}`, payload, {
           withCredentials: true,
         })
 

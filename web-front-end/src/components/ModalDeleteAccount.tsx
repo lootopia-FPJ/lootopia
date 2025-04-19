@@ -20,7 +20,7 @@ const ModalDeleteAccount = ({ open, onClose }: ModalDeleteAccountProps) => {
     }
 
     try {
-      await axios.delete(`http://localhost:3000/api/users/${user.id}`, {
+      await axios.delete(`${import.meta.env.VITE_USER_URL}/${user.id}`, {
         withCredentials: true,
       })
 

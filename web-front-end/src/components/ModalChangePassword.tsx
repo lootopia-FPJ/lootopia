@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
+import { toast } from 'react-toastify'
 
 interface ModalChangePasswordProps {
   open: boolean
@@ -34,9 +35,13 @@ const ModalChangePassword = ({ open, onClose }: ModalChangePasswordProps) => {
         .required('Confirmation requise'),
     }),
     onSubmit: async (values) => {
+      if (!user?.id) {
+        toast.error('Utilisateur non trouvé.')
+        return
+      }
       try {
         await axios.patch(
-          `http://localhost:3000/api/users/${user.id}/password`,
+          `${import.meta.env.VITE_USER_URL}/${user.id}/password`,
           { newPassword: values.newPassword },
           { withCredentials: true }
         )
