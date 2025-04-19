@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UseGuards,
+  Res,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -21,6 +22,7 @@ import { Role } from '../../common/decorators/role.decorator'
 import { RolesGuard } from '../../common/guards/roles/roles.guard'
 import { SelfOrAdminGuard } from '../../common/guards/roles/self-or-admin.guard'
 import { AuthGuard } from '@nestjs/passport'
+import { Response } from 'express'
 
 @Controller('users')
 export class UsersController {
@@ -66,9 +68,18 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'), SelfOrAdminGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.usersService.remove(+id)
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    await this.usersService.remove(+id)
+
+    res.clearCookie('jwt', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    })
+
+    res.status(200).json({ message: 'Account deleted' })
   }
+
   @UseGuards(AuthGuard('jwt'), SelfOrAdminGuard)
   @Patch(':id/password')
   async changePassword(@Param('id') id: string, @Body() changePasswordDto: ChangePasswordDto) {

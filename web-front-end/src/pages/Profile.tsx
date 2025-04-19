@@ -3,10 +3,13 @@ import { useUser } from '../hooks/UserContext'
 import { Button } from '../components/ui/button'
 import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import ModalDeleteAccount from '../components/ModalDeleteAccount'
 
 const Profile = () => {
   const { user } = useUser()
   const navigate = useNavigate()
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   if (!user) return null
 
@@ -16,7 +19,6 @@ const Profile = () => {
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col lg:flex-row bg-gray-50">
-      {/* Sidebar */}
       <aside className="w-full lg:w-1/4 bg-white shadow-md p-6 flex flex-col gap-4">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Actions</h2>
         <Button
@@ -27,7 +29,11 @@ const Profile = () => {
           ✏️ Modifier le profil
         </Button>
 
-        <Button variant="destructive" className="w-full text-left">
+        <Button
+          variant="destructive"
+          className="w-full text-left"
+          onClick={() => setShowDeleteModal(true)}
+        >
           🗑️ Supprimer le compte
         </Button>
 
@@ -36,12 +42,10 @@ const Profile = () => {
         </Button>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 p-8 flex items-center justify-center">
         <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">👤 Mon Profil</h1>
 
-          {/* Avatar centré */}
           <div className="flex justify-center mb-6">
             <Avatar className="w-28 h-28">
               <AvatarImage src={profileUrl} alt="Photo de profil" className="object-cover" />
@@ -62,6 +66,7 @@ const Profile = () => {
           </div>
         </div>
       </main>
+      <ModalDeleteAccount open={showDeleteModal} onClose={() => setShowDeleteModal(false)} />
     </div>
   )
 }
