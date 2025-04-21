@@ -37,7 +37,11 @@ const Profile = () => {
           🗑️ Supprimer le compte
         </Button>
 
-        <Button variant="primary" className="w-full text-left">
+        <Button
+          variant="primary"
+          className="w-full text-left"
+          onClick={() => navigate('/add-hunt')}
+        >
           ➕ Ajouter une chasse
         </Button>
       </aside>
