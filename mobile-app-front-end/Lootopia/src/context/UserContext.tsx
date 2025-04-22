@@ -1,36 +1,36 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from 'react';
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type {TokenPayload} from '../utils/decodeJwt';
+
+type User = {
+  email: string;
+  role: string;
+  type: string;
+};
 
 type UserContextType = {
   isAuthenticated: boolean;
   setAuthenticated: (auth: boolean) => void;
-  user: TokenPayload | null;
-  setUser: (user: TokenPayload) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
 };
-
-const UserContext = createContext<UserContextType | undefined>(undefined);
-
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) throw new Error('useUser must be used within a UserProvider');
   return context;
 };
 
+const UserContext = createContext<UserContextType | undefined>(undefined);
+
 export const UserProvider = ({children}: {children: ReactNode}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<TokenPayload | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem('token');
+      const userStr = await AsyncStorage.getItem('user');
       setIsAuthenticated(!!token);
+      if (userStr) setUser(JSON.parse(userStr));
     };
     checkToken();
   }, []);

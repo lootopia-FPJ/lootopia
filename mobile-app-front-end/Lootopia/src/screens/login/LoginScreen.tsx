@@ -14,8 +14,7 @@ import {HomeScreenNavigationProp} from '../../navigation/types';
 import {Button} from '../../components/Button';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {loginUser} from '../../api/authApi';
-import {decodeJwt} from '../../utils/decodeJwt';
+import {loginUser, getCurrentUser} from '../../api/authApi';
 import {useUser} from '../../context/UserContext';
 
 const loginValidationSchema = yup.object().shape({
@@ -42,10 +41,11 @@ const LoginScreen = () => {
       console.log('Login success:', data);
       await AsyncStorage.setItem('token', data.accessToken);
 
-      const decoded = decodeJwt(data.accessToken);
-      console.log('Decoded JWT:', decoded);
-      await AsyncStorage.setItem('user', JSON.stringify(decoded));
-      setUser(decoded);
+      const user = await getCurrentUser(data.accessToken);
+      console.log('Fetched user:', user);
+
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
 
       Alert.alert('Success', 'Login successful');
       setAuthenticated(true);
