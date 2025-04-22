@@ -5,6 +5,7 @@ import { DbModule } from './db/db.module'
 import { seconds, ThrottlerModule } from '@nestjs/throttler'
 import { TreasureHuntsModule } from './modules/treasure-hunts/treasure-hunts.module'
 import { ConfigModule } from '@nestjs/config'
+import { CloudinaryModule } from './common/cloudinary/cloudinary.module'
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule } from '@nestjs/config'
         },
       ],
     }),
+    CloudinaryModule,
   ],
 })
 export class AppModule {}

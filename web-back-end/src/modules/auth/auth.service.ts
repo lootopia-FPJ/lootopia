@@ -84,7 +84,16 @@ export class AuthService {
     const user = await this.userRepo.findOne({
       where: { email: loginDto.email },
       relations: ['roles'],
-      select: ['id', 'email', 'password_hash', 'is_active', 'type'],
+      select: [
+        'id',
+        'email',
+        'nickname',
+        'password_hash',
+        'is_active',
+        'type',
+        'phone_number',
+        'profile_picture',
+      ],
     })
 
     if (!user || !(await bcrypt.compare(loginDto.password, user.password_hash))) {
@@ -102,6 +111,9 @@ export class AuthService {
       email: user.email,
       type: user.type,
       role,
+      nickname: user.nickname,
+      phone_number: user.phone_number,
+      profile_picture: user.profile_picture,
     })
 
     res.cookie('jwt', token, {
@@ -111,6 +123,18 @@ export class AuthService {
       maxAge: 86400000,
     })
 
-    return { message: 'Login successful', accessToken: token }
+    return {
+      message: 'Login successful',
+      accessToken: token,
+      user: {
+        id: user.id,
+        email: user.email,
+        type: user.type,
+        role,
+        nickname: user.nickname,
+        profile_picture: user.profile_picture,
+        phone_number: user.phone_number,
+      },
+    }
   }
 }

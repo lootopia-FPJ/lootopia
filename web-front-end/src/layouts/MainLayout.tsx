@@ -4,15 +4,15 @@ import Footer from '../components/Footer'
 
 const MainLayout = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="pt-20 min-h-screen flex flex-col justify-between">
-        <div className="flex-1">
-          <Outlet />
-        </div>
-        <Footer />
-      </div>
-    </>
+
+      <main className="flex-1 pt-20 w-screen bg-gray-50">
+        <Outlet />
+      </main>
+
+      <Footer />
+    </div>
   )
 }
 
