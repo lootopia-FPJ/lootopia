@@ -1,13 +1,22 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-
 import {HomeScreenNavigationProp} from '../../navigation/types';
 import {Button} from '../../components/Button';
 import styles from './styles';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {loginUser} from '../../api/authApi';
+import {decodeJwt} from '../../utils/decodeJwt';
+import {useUser} from '../../context/UserContext';
 
 const loginValidationSchema = yup.object().shape({
   email: yup
@@ -25,9 +34,29 @@ const loginValidationSchema = yup.object().shape({
 
 const LoginScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const {setAuthenticated, setUser} = useUser();
 
-  const handleLogin = (values: {email: string; password: string}) => {
-    console.log('Login form values:', values);
+  const handleLogin = async (values: {email: string; password: string}) => {
+    try {
+      const data = await loginUser(values.email, values.password);
+      console.log('Login success:', data);
+      await AsyncStorage.setItem('token', data.accessToken);
+
+      const decoded = decodeJwt(data.accessToken);
+      console.log('Decoded JWT:', decoded);
+      await AsyncStorage.setItem('user', JSON.stringify(decoded));
+      setUser(decoded);
+
+      Alert.alert('Success', 'Login successful');
+      setAuthenticated(true);
+      navigation.navigate('Dashboard');
+    } catch (error: any) {
+      console.error('Login error:', error.response?.data || error.message);
+      Alert.alert(
+        'Login failed',
+        error.response?.data?.message || 'Unknown error',
+      );
+    }
   };
 
   return (
@@ -55,12 +84,6 @@ const LoginScreen = () => {
         }) => (
           <>
             <View className="flex-row items-center border border-gray-300 rounded-md px-3 py-2 mb-2">
-              <MaterialCommunityIcons
-                name="email"
-                size={20}
-                color="black"
-                className="mr-2"
-              />
               <TextInput
                 placeholder="Email"
                 keyboardType="email-address"
@@ -74,12 +97,6 @@ const LoginScreen = () => {
               <Text className="text-red-500 text-sm mb-2">{errors.email}</Text>
             )}
             <View className="flex-row items-center border border-gray-300 rounded-md px-3 py-2 mb-2">
-              <MaterialCommunityIcons
-                name="lock"
-                size={20}
-                color="black"
-                className="mr-2"
-              />
               <TextInput
                 placeholder="Mot de passe"
                 secureTextEntry

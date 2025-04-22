@@ -1,0 +1,12 @@
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/bin/Debug/Lootopia.dacpac
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/bin/Debug/Lootopia.deps.json
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/bin/Debug/Lootopia.dll
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/bin/Debug/Lootopia.pdb
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/Lootopia.GeneratedMSBuildEditorConfig.editorconfig
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/Lootopia.sourcelink.json
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/Model.xml
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/refactor.xml
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/postdeploy.sql
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/predeploy.sql
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/Lootopia.dll
+/Users/prajaychaudhary/Desktop/lootopia/Lootopia/obj/Debug/Lootopia.pdb

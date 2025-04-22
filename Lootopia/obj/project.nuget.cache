@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "byyMUobK84k=",
+  "success": true,
+  "projectFilePath": "/Users/prajaychaudhary/Desktop/lootopia/Lootopia/Lootopia.sqlproj",
+  "expectedPackageFiles": [
+    "/Users/prajaychaudhary/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.3/microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "/Users/prajaychaudhary/.nuget/packages/microsoft.netframework.referenceassemblies.net20/1.0.3/microsoft.netframework.referenceassemblies.net20.1.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
