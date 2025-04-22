@@ -1,13 +1,19 @@
-import { IsNotEmpty, MinLength, Matches } from 'class-validator'
+import { IsNotEmpty, IsStrongPassword } from 'class-validator'
 
 export class ChangePasswordDto {
-  @IsNotEmpty({ message: 'Password is required' })
-  @MinLength(8, { message: 'Password must be at least 8 characters long' })
-  @Matches(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
-  @Matches(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
-  @Matches(/[0-9]/, { message: 'Password must contain at least one digit' })
-  @Matches(/[@$!%*?&]/, {
-    message: 'Password must contain at least one special character (@$!%*?&)',
-  })
+  @IsNotEmpty({ message: 'password is required.' })
+  @IsStrongPassword(
+    {
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    },
+    {
+      message:
+        'Password must contain at least one uppercase letter,one lowercase letter,one number and one symbol',
+    }
+  )
   newPassword!: string
 }
