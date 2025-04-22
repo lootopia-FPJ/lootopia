@@ -15,7 +15,9 @@ type UserContextType = {
 };
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) throw new Error('useUser must be used within a UserProvider');
+  if (!context) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
   return context;
 };
 
@@ -30,7 +32,9 @@ export const UserProvider = ({children}: {children: ReactNode}) => {
       const token = await AsyncStorage.getItem('token');
       const userStr = await AsyncStorage.getItem('user');
       setIsAuthenticated(!!token);
-      if (userStr) setUser(JSON.parse(userStr));
+      if (userStr) {
+        setUser(JSON.parse(userStr));
+      }
     };
     checkToken();
   }, []);
