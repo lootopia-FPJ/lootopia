@@ -27,12 +27,6 @@ const HomeScreen = () => {
       </View>
       <View className="flex-row gap-4 mt-6">
         <Button
-          type="outline"
-          size="md"
-          onPress={() => navigation.navigate('SignUp')}>
-          S'inscrire
-        </Button>
-        <Button
           type="destructive"
           size="md"
           onPress={() => navigation.navigate('Login')}>
