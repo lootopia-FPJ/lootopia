@@ -73,3 +73,15 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+
+
+
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore NuGet and SourceLink build artifacts
+*.nuget.dgspec.json
+*.FileListAbsolute.txt
+*.sourcelink.json
