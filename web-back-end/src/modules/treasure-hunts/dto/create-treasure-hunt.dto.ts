@@ -1,5 +1,6 @@
-import { IsEnum, IsNotEmpty, IsOptional, Max, Min } from 'class-validator'
+import { IsDate, IsEnum, IsNotEmpty, IsOptional, Max, Min } from 'class-validator'
 import { RewardType } from '../entities/treasure-hunt.entity'
+import { Type } from 'class-transformer'
 
 export class CreateTreasureHuntDto {
   @IsNotEmpty()
@@ -15,7 +16,9 @@ export class CreateTreasureHuntDto {
   is_public!: boolean
 
   @IsOptional()
-  duration?: number
+  @Type(() => Date)
+  @IsDate({ message: 'ended_at must be a valid date' })
+  ended_at?: Date
 
   @IsOptional()
   max_players?: number
@@ -34,8 +37,8 @@ export class CreateTreasureHuntDto {
   digging_cost!: number
 
   @IsNotEmpty()
-  @Min(1)
-  @Max(10)
+  @Min(0)
+  @Max(1)
   difficulty!: number
 
   @IsOptional()

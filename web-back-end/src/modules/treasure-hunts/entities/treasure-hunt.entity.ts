@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -32,8 +33,8 @@ export default class TreasureHunt {
   @Column()
   is_public!: boolean
 
-  @Column({ nullable: true })
-  duration?: number
+  @Column({ type: 'timestamptz', nullable: true })
+  ended_at?: Date
 
   @Column({ nullable: true })
   max_players!: number
@@ -57,6 +58,7 @@ export default class TreasureHunt {
   difficulty!: number
 
   @ManyToOne(() => User)
+  @JoinColumn({ name: 'created_by' })
   created_by!: User
 
   @ManyToMany(() => User)

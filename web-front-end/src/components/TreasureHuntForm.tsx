@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable max-lines-per-function */
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -14,17 +15,25 @@ import {
 } from '@/components/ui/select'
 import treasure from '../assets/treasure-c.png'
 import ImageComponent from '../components/ui/ImageComponent'
+import { Textarea } from './ui/textarea'
+import { useUser } from '../hooks/UserContext'
+import '../styles/treasureHuntForm.css'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
 
 const TreasureHuntForm = () => {
+  const { user } = useUser()
+
   const formik = useFormik({
     initialValues: {
       name: '',
       description: '',
       is_real_world: true,
       is_public: true,
-      duration: '',
-      max_players: '',
-      entry_fee: '',
+      ended_at: '',
+      max_players: 1,
+      entry_fee: 0,
       reward_type: '',
       digging_delay: 1,
       digging_cost: 1,
@@ -36,27 +45,59 @@ const TreasureHuntForm = () => {
       description: Yup.string().required('La description est requise'),
       is_real_world: Yup.boolean().required(),
       is_public: Yup.boolean().required(),
-      duration: Yup.number().min(1).required('La durée est requise'),
-      max_players: Yup.number().min(1).required('Le nombre de joueurs est requis'),
-      entry_fee: Yup.number().min(0).required('Les frais de participation sont requis'),
+      ended_at: Yup.date()
+        .min(new Date(), 'La date de fin doit être dans le futur')
+        .required('La date de fin est requise'),
+      max_players: Yup.number()
+        .min(1, 'Le nombre de joueurs doit être supérieur à 0')
+        .required('Le nombre de joueurs est requis'),
+      entry_fee: Yup.number()
+        .min(0, 'Les frais de participation ne peuvent pas être négatifs')
+        .required('Les frais de participation sont requis'),
       reward_type: Yup.string()
         .oneOf(['internal', 'external'])
         .required('La récompense est requise'),
-      digging_delay: Yup.number().min(1).required(),
-      digging_cost: Yup.number().min(1).required(),
+      digging_delay: Yup.number().min(1, 'Le délai doit être au moins 1').required(),
+      digging_cost: Yup.number().min(1, 'Le coût doit être au moins 1').required(),
       difficulty: Yup.number().oneOf([0, 1]).required('La difficulté est requise'),
     }),
-    onSubmit: (values) => {
-      console.log('Formulaire soumis avec les valeurs :', values)
+    onSubmit: async (values) => {
+      if (!user || !user.id) {
+        toast.error('Utilisateur introuvable. Veuillez vous reconnecter.')
+        return
+      }
+      try {
+        const HUNT_URL = import.meta.env.VITE_HUNT_URL
+        const payload = {
+          ...values,
+          ended_at: values.ended_at ? new Date(values.ended_at).toISOString() : undefined,
+          created_by: user.id,
+        }
+
+        const response = await axios.post(HUNT_URL, payload, {
+          withCredentials: true,
+        })
+
+        console.log('✅ Chasse créée avec succès :', response.data)
+        toast.success('🎉 Chasse créée avec succès !')
+        formik.resetForm()
+      } catch (error) {
+        const message =
+          (error as any).response?.data?.message || 'Erreur lors de la création de la chasse'
+        toast.error(message)
+      }
     },
   })
 
   return (
-    <div className="h-screen flex flex-col lg:flex-row">
-      <div className="lg:w-1/2 w-full h-full flex items-center justify-center bg-gray-100 px-4 md:px-16 overflow-auto">
-        <Card className="w-full max-w-2xl p-6 shadow-lg">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+      <ToastContainer />
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 md:px-8 lg:px-16 py-8 overflow-y-auto">
+        <Card className="w-full max-w-3xl p-6 shadow-lg bg-white">
           <CardHeader>
-            <CardTitle className="text-center text-lg">Créer une Chasse au Trésor</CardTitle>
+            <CardTitle className="text-center text-xl md:text-2xl">
+              Créer une Chasse au Trésor
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -72,16 +113,16 @@ const TreasureHuntForm = () => {
 
               <div>
                 <Label htmlFor="description">Description</Label>
-                <textarea
+                <Textarea
                   id="description"
                   name="description"
-                  className="w-full border rounded p-2"
                   value={formik.values.description}
                   onChange={formik.handleChange}
+                  placeholder="Décris ta chasse au trésor..."
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label>Monde réel ?</Label>
                   <Select
@@ -116,36 +157,40 @@ const TreasureHuntForm = () => {
               </div>
 
               <div>
-                <Label htmlFor="duration">Durée (minutes)</Label>
+                <Label htmlFor="ended_at">Date et heure de fin</Label>
                 <Input
-                  id="duration"
-                  name="duration"
-                  type="number"
-                  value={formik.values.duration}
+                  id="ended_at"
+                  name="ended_at"
+                  type="datetime-local"
+                  value={formik.values.ended_at}
                   onChange={formik.handleChange}
                 />
               </div>
 
-              <div>
-                <Label htmlFor="max_players">Nombre max de joueurs</Label>
-                <Input
-                  id="max_players"
-                  name="max_players"
-                  type="number"
-                  value={formik.values.max_players}
-                  onChange={formik.handleChange}
-                />
-              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="max_players">Nombre max de joueurs</Label>
+                  <Input
+                    id="max_players"
+                    name="max_players"
+                    type="number"
+                    min={1}
+                    value={formik.values.max_players}
+                    onChange={formik.handleChange}
+                  />
+                </div>
 
-              <div>
-                <Label htmlFor="entry_fee">Frais de participation</Label>
-                <Input
-                  id="entry_fee"
-                  name="entry_fee"
-                  type="number"
-                  value={formik.values.entry_fee}
-                  onChange={formik.handleChange}
-                />
+                <div>
+                  <Label htmlFor="entry_fee">Frais de participation</Label>
+                  <Input
+                    id="entry_fee"
+                    name="entry_fee"
+                    type="number"
+                    min={0}
+                    value={formik.values.entry_fee}
+                    onChange={formik.handleChange}
+                  />
+                </div>
               </div>
 
               <div>
@@ -158,32 +203,32 @@ const TreasureHuntForm = () => {
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="internal">Interne (monnaie virtuelle, objets)</SelectItem>
-                    <SelectItem value="external">
-                      Externe (biens matériels, offres partenaires)
-                    </SelectItem>
+                    <SelectItem value="internal">Interne</SelectItem>
+                    <SelectItem value="external">Externe</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="digging_delay">Délai entre les fouilles (secondes)</Label>
+                  <Label htmlFor="digging_delay">Délai entre les fouilles</Label>
                   <Input
                     id="digging_delay"
                     name="digging_delay"
                     type="number"
+                    min={1}
                     value={formik.values.digging_delay}
                     onChange={formik.handleChange}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="digging_cost">Coût d'une fouille (couronnes)</Label>
+                  <Label htmlFor="digging_cost">Coût d'une fouille</Label>
                   <Input
                     id="digging_cost"
                     name="digging_cost"
                     type="number"
+                    min={1}
                     value={formik.values.digging_cost}
                     onChange={formik.handleChange}
                   />
@@ -206,18 +251,22 @@ const TreasureHuntForm = () => {
                 </Select>
               </div>
 
-              <div className="flex justify-between pt-4">
+              <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">
                 <Button
                   type="button"
+                  className="create-btn w-full sm:w-auto"
                   onClick={() => {
                     formik.setFieldValue('is_draft', true)
                     formik.handleSubmit()
                   }}
-                  variant="secondary"
                 >
                   Enregistrer comme brouillon
                 </Button>
-                <Button type="submit" onClick={() => formik.setFieldValue('is_draft', false)}>
+                <Button
+                  type="submit"
+                  className="create-btn w-full sm:w-auto"
+                  onClick={() => formik.setFieldValue('is_draft', false)}
+                >
                   Publier la chasse
                 </Button>
               </div>
