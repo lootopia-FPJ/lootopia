@@ -5,6 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import ModalDeleteAccount from '../components/ModalDeleteAccount'
+import { ListChecks, Pencil, PlusCircle, Trash2 } from 'lucide-react'
 
 const Profile = () => {
   const { user } = useUser()
@@ -26,7 +27,8 @@ const Profile = () => {
           className="w-full text-left"
           onClick={() => navigate('/edit-profile')}
         >
-          ✏️ Modifier le profil
+          <Pencil size={18} />
+          Modifier le profil
         </Button>
 
         <Button
@@ -34,7 +36,8 @@ const Profile = () => {
           className="w-full text-left"
           onClick={() => setShowDeleteModal(true)}
         >
-          🗑️ Supprimer le compte
+          <Trash2 size={18} />
+          Supprimer le compte
         </Button>
 
         <Button
@@ -42,7 +45,16 @@ const Profile = () => {
           className="w-full text-left"
           onClick={() => navigate('/add-hunt')}
         >
-          ➕ Ajouter une chasse
+          <PlusCircle size={18} />
+          Ajouter une chasse
+        </Button>
+        <Button
+          variant="primary"
+          className="w-full text-left flex items-center gap-2"
+          onClick={() => navigate('/my-hunts')}
+        >
+          <ListChecks size={18} />
+          Mes chasses
         </Button>
       </aside>
 

@@ -12,7 +12,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@/components/ui/select'
+} from '../components/ui/select'
 import treasure from '../assets/treasure-c.png'
 import ImageComponent from '../components/ui/ImageComponent'
 import { Textarea } from './ui/textarea'
@@ -74,11 +74,10 @@ const TreasureHuntForm = () => {
           created_by: user.id,
         }
 
-        const response = await axios.post(HUNT_URL, payload, {
+        await axios.post(HUNT_URL, payload, {
           withCredentials: true,
         })
 
-        console.log('✅ Chasse créée avec succès :', response.data)
         toast.success('🎉 Chasse créée avec succès !')
         formik.resetForm()
       } catch (error) {
