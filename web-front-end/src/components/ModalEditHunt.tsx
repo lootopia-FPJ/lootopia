@@ -39,7 +39,6 @@ type EditModalProps = {
 }
 
 const ModalEditHunt = ({ open, onClose, hunt, onSuccess }: EditModalProps) => {
-  // Vérification obligatoire avant tout
   if (!hunt) return null
 
   const formik = useFormik({
@@ -133,7 +132,9 @@ const ModalEditHunt = ({ open, onClose, hunt, onSuccess }: EditModalProps) => {
             <Button type="button" variant="secondary" onClick={onClose}>
               Annuler
             </Button>
-            <Button type="submit">Mettre à jour</Button>
+            <Button type="submit" variant="secondary">
+              Mettre à jour
+            </Button>
           </div>
         </form>
       </DialogContent>
