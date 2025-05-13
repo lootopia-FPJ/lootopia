@@ -128,7 +128,13 @@ const MyHuntsTable = () => {
                   {getStatus(hunt) === 'En cours' && <Badge variant="default">En cours</Badge>}
                   {getStatus(hunt) === 'Terminé' && <Badge variant="destructive">Terminé</Badge>}
                 </TableCell>
-                <TableCell>{new Date(hunt.ended_at).toLocaleString('fr-FR')}</TableCell>
+                <TableCell>
+                  {new Date(hunt.ended_at).toLocaleTimeString('fr-FR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </TableCell>
+
                 <TableCell>
                   <div className="flex items-center justify-end gap-2">
                     {hunt.is_draft && (
