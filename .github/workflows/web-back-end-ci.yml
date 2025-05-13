@@ -2,7 +2,7 @@ name: Web Backend CI
 
 on:
   push:
-    branches: ['main', 'develop']
+    branches: ['main', 'develop', 'feature/LMD-72']
   pull_request:
     branches: ['main', 'develop']
 
@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -44,7 +44,7 @@ jobs:
       - name: Run ESLint
         run: cd ./web-back-end && npm run lint
 
-      - name: Run Prettier
+      - name: Run prettier
         run: cd ./web-back-end && npm run format
 
   unit-tests:
@@ -54,10 +54,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
