@@ -26,7 +26,7 @@ export class TreasureHuntsService {
       description: createTreasureHuntDto.description,
       is_real_world: createTreasureHuntDto.is_real_world,
       is_public: createTreasureHuntDto.is_public,
-      duration: createTreasureHuntDto.duration,
+      ended_at: createTreasureHuntDto.ended_at,
       max_players: createTreasureHuntDto.max_players,
       entry_fee: createTreasureHuntDto.entry_fee,
       reward_type: createTreasureHuntDto.reward_type,
@@ -51,13 +51,25 @@ export class TreasureHuntsService {
     return await this.treasureHuntRepository.findOneBy({ id })
   }
 
+  async findByUser(userId: number) {
+    return await this.treasureHuntRepository.find({
+      where: {
+        created_by: { id: userId },
+      },
+      relations: ['created_by'],
+      order: {
+        created_at: 'DESC',
+      },
+    })
+  }
+
   async update(id: number, updateTreasureHuntDto: UpdateTreasureHuntDto) {
     return await this.treasureHuntRepository.update(id, {
       name: updateTreasureHuntDto.name,
       description: updateTreasureHuntDto.description,
       is_real_world: updateTreasureHuntDto.is_real_world,
       is_public: updateTreasureHuntDto.is_public,
-      duration: updateTreasureHuntDto.duration,
+      ended_at: updateTreasureHuntDto.ended_at,
       max_players: updateTreasureHuntDto.max_players,
       entry_fee: updateTreasureHuntDto.entry_fee,
       reward_type: updateTreasureHuntDto.reward_type,

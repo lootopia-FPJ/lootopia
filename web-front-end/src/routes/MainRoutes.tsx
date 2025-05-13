@@ -14,6 +14,8 @@ import Login from '../pages/Login'
 import Profile from '../pages/Profile'
 import PrivateRoute from '../components/PrivateRoute'
 import EditProfile from '../pages/EditProfile'
+import AddTreasureHunt from '../pages/AddTreasureHunt'
+import MyHunts from '../pages/MyHunts'
 
 const MainRoutes = () => {
   return (
@@ -41,6 +43,22 @@ const MainRoutes = () => {
           element={
             <PrivateRoute>
               <EditProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="add-hunt"
+          element={
+            <PrivateRoute>
+              <AddTreasureHunt />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="my-hunts"
+          element={
+            <PrivateRoute>
+              <MyHunts />
             </PrivateRoute>
           }
         />
