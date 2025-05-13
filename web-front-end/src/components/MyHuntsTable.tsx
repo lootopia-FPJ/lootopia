@@ -129,9 +129,13 @@ const MyHuntsTable = () => {
                   {getStatus(hunt) === 'Terminé' && <Badge variant="destructive">Terminé</Badge>}
                 </TableCell>
                 <TableCell>
-                  {new Date(hunt.ended_at).toLocaleTimeString('fr-FR', {
+                  {new Date(hunt.ended_at).toLocaleString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit',
+                    hour12: false,
                   })}
                 </TableCell>
 
