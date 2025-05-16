@@ -7,7 +7,7 @@
       "driver": "PostgreSQL",
       "name": "Lootopia",
       "database": "lootopia",
-      "username": "postgres",
+      "username": "prajaychaudhary",
       "password": ""
     }
   ]

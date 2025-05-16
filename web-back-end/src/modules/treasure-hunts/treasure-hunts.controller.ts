@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UseGuards,
+  Query,
 } from '@nestjs/common'
 import { TreasureHuntsService } from './treasure-hunts.service'
 import { CreateTreasureHuntDto } from './dto/create-treasure-hunt.dto'
@@ -27,8 +28,8 @@ export class TreasureHuntsController {
   }
 
   @Get()
-  findAll() {
-    return this.treasureHuntsService.findAll()
+  async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.treasureHuntsService.findAllPaginated(+page, +limit)
   }
 
   @Get(':id')

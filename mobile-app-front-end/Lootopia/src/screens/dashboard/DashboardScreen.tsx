@@ -1,11 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../navigation/types';
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'Dashboard'>;
 
 const DashboardScreen = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userRole, setUserRole] = useState('');
   const [userType, setUserType] = useState('');
+  const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,6 +33,13 @@ const DashboardScreen = () => {
       <Text>Email: {userEmail}</Text>
       <Text>Role: {userRole}</Text>
       <Text>Type: {userType}</Text>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('TreasureHunts')}
+        className="bg-blue-600 px-6 py-3 rounded-lg">
+        <Text className="text-white text-base font-semibold">
+          Voir les chasses au trésor
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
