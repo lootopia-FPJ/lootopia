@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
+import {View, Text, TouchableOpacity, SafeAreaView, Alert} from 'react-native';
 import {getTreasureHunts} from '../../api/treasureHuntApi';
 import {useNavigation} from '@react-navigation/native';
 import {InfiniteScrollList} from '../../components/InfiniteScrollList';
@@ -42,13 +42,18 @@ const TreasureHuntsScreen = () => {
         if (paginatedData.length < PAGE_SIZE) {
           setHasMore(false);
         }
-      } catch (error) {
-        console.error('Error fetching hunts:', error);
+      } catch (error: any) {
+        if (error.response?.status === 401) {
+          Alert.alert('Session expirée', 'Veuillez vous reconnecter');
+          navigation.navigate('Login');
+        } else {
+          console.error('Error fetching hunts:', error);
+        }
       } finally {
         setLoading(false);
       }
     },
-    [loading, hasMore],
+    [loading, hasMore, navigation],
   );
 
   useEffect(() => {

@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../navigation/types';
+import {Button} from '../../components/Button';
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Dashboard'>;
 
@@ -33,13 +34,14 @@ const DashboardScreen = () => {
       <Text>Email: {userEmail}</Text>
       <Text>Role: {userRole}</Text>
       <Text>Type: {userType}</Text>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('TreasureHunts')}
-        className="bg-blue-600 px-6 py-3 rounded-lg">
-        <Text className="text-white text-base font-semibold">
+      <View className="items-center p-6">
+        <Button
+          type="outline"
+          size="md"
+          onPress={() => navigation.navigate('TreasureHunts')}>
           Voir les chasses au trésor
-        </Text>
-      </TouchableOpacity>
+        </Button>
+      </View>
     </View>
   );
 };

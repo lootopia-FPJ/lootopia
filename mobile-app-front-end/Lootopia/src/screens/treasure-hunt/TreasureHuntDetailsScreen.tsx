@@ -57,7 +57,16 @@ const TreasureHuntDetailsScreen = () => {
           🎯 Difficulté : {hunt.difficulty}/10
         </Text>
         <Text className="text-base text-black mb-1">
-          ⏱ Durée : {hunt.duration ? `${hunt.duration} minutes` : 'Non définie'}
+          ⏱ Se termine le :{' '}
+          {hunt.ended_at
+            ? new Date(hunt.ended_at).toLocaleString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })
+            : 'Non définie'}
         </Text>
         <Text className="text-base text-black mb-1">
           👥 Joueurs max : {hunt.max_players || 'Illimité'}

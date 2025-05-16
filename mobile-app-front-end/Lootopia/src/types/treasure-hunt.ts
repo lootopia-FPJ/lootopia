@@ -4,7 +4,7 @@ export type TreasureHunt = {
   description: string;
   is_real_world: boolean;
   is_public: boolean;
-  duration?: number;
+  ended_at?: string;
   max_players?: number;
   entry_fee?: number;
   reward_type: string;
