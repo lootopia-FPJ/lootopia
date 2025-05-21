@@ -83,4 +83,14 @@ export class TreasureHuntsService {
   async remove(id: number) {
     return await this.treasureHuntRepository.delete(id)
   }
+
+  async findAllPaginated(page: number, limit: number) {
+    const skip = (page - 1) * limit
+    return this.treasureHuntRepository.find({
+      where: { is_draft: false },
+      skip,
+      take: limit,
+      order: { created_at: 'DESC' },
+    })
+  }
 }
