@@ -7,6 +7,8 @@ import { TreasureHuntsModule } from './modules/treasure-hunts/treasure-hunts.mod
 import { ConfigModule } from '@nestjs/config'
 import { CloudinaryModule } from './common/cloudinary/cloudinary.module'
 import { StripeModule } from './modules/stripe/stripe.module'
+import { WalletModule } from './modules/wallet/wallet.module'
+import { LoggerModule } from './common/logger/logger.module'
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { StripeModule } from './modules/stripe/stripe.module'
     }),
     CloudinaryModule,
     StripeModule.forRootAsync(),
+    WalletModule,
+    LoggerModule,
   ],
 })
 export class AppModule {}
