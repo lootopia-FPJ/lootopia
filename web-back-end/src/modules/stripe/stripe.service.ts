@@ -62,8 +62,8 @@ export class StripeService {
           quantity: 1,
         },
       ],
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
+      success_url: `${process.env.FRONTEND_WEB_URL}/success`,
+      cancel_url: `${process.env.FRONTEND_WEB_URL}/cancel`,
       metadata: {
         userId: userId.toString(),
         crowns: pack.crowns.toString(),

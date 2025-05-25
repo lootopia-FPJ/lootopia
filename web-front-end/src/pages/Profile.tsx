@@ -5,7 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import ModalDeleteAccount from '../components/ModalDeleteAccount'
-import { ListChecks, Pencil, PlusCircle, Trash2 } from 'lucide-react'
+import { Wallet, ListChecks, Pencil, PlusCircle, Trash2 } from 'lucide-react'
 
 const Profile = () => {
   const { user } = useUser()
@@ -22,6 +22,15 @@ const Profile = () => {
     <div className="min-h-[calc(100vh-80px)] flex flex-col lg:flex-row bg-gray-50">
       <aside className="w-full lg:w-1/4 bg-white shadow-md p-6 flex flex-col gap-4">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Actions</h2>
+        <Button
+          variant="primary"
+          className="w-full text-left flex items-center gap-2"
+          onClick={() => navigate('/wallet')}
+        >
+          <Wallet size={18} />
+          Mon portefeuille
+        </Button>
+
         <Button
           variant="primary"
           className="w-full text-left"
