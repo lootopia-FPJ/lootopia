@@ -1,27 +1,38 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { CurrentUser } from 'src/common/decorators/current-user.decorator'
 import { CreditWalletDto } from './dto/credit-wallet.dto'
 import { DebitWalletDto } from './dto/debit-wallet.dto'
 import { WalletService } from './wallet.service'
+import { SelfOrAdminGuard } from 'src/common/guards/roles/self-or-admin.guard'
+import { NotFoundInterceptorInterceptor } from 'src/common/interceptors/not-found-interceptor.interceptor'
 
 @Controller('wallet')
 @UseGuards(AuthGuard('jwt'))
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
-  @Get()
-  async getBalance(@CurrentUser() user: { id: number }) {
-    return this.walletService.getBalance(user.id)
+  @UseGuards(SelfOrAdminGuard)
+  @Get(':id')
+  @UseInterceptors(NotFoundInterceptorInterceptor)
+  async getBalance(@Param('id') id: string) {
+    return this.walletService.getBalance(+id)
   }
 
-  @Post('credit')
-  async credit(@CurrentUser() user: { id: number }, @Body() dto: CreditWalletDto) {
-    return this.walletService.credit(user.id, dto.amount, dto.description)
+  @UseGuards(SelfOrAdminGuard)
+  @Post(':id/credit')
+  async credit(@Param('id') id: string, @Body() dto: CreditWalletDto) {
+    return this.walletService.credit(+id, dto.amount, dto.description)
   }
 
-  @Post('debit')
-  async debit(@CurrentUser() user: { id: number }, @Body() dto: DebitWalletDto) {
-    return this.walletService.debit(user.id, dto.amount, dto.description)
+  @UseGuards(SelfOrAdminGuard)
+  @Post(':id/debit')
+  async debit(@Param('id') id: string, @Body() dto: DebitWalletDto) {
+    return this.walletService.debit(+id, dto.amount, dto.description)
+  }
+
+  @UseGuards(SelfOrAdminGuard)
+  @Get(':id/transactions')
+  async getTransactions(@Param('id') id: string) {
+    return this.walletService.getTransactions(+id)
   }
 }

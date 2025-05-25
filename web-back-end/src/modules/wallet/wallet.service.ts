@@ -18,6 +18,13 @@ export class WalletService {
     return wallet.balance
   }
 
+  async getTransactions(userId: number): Promise<CrownTransaction[]> {
+    return this.txRepo.find({
+      where: { user: { id: userId } },
+      order: { transactionDate: 'DESC' },
+    })
+  }
+
   async credit(userId: number, amount: number, description: string) {
     const wallet = await this.findOrCreateWallet(userId)
 
