@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator, SafeAreaView} from 'react-native';
 import {getTreasureHuntById} from '../../api/treasureHuntApi';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../navigation/types';
 import {TreasureHunt} from '../../types/treasure-hunt';
+import {Button} from '../../components/Button';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 type TreasureHuntDetailsRouteProp = RouteProp<
   RootStackParamList,
@@ -11,6 +13,10 @@ type TreasureHuntDetailsRouteProp = RouteProp<
 >;
 
 const TreasureHuntDetailsScreen = () => {
+  const navigation =
+    useNavigation<
+      StackNavigationProp<RootStackParamList, 'TreasureHuntDetails'>
+    >();
   const [hunt, setHunt] = useState<TreasureHunt | null>(null);
   const [loading, setLoading] = useState(true);
   const route = useRoute<TreasureHuntDetailsRouteProp>();
@@ -90,6 +96,19 @@ const TreasureHuntDetailsScreen = () => {
         <Text className="text-base text-black">
           💎 Coût de creusage : {hunt.digging_cost} pièces
         </Text>
+        <Text className="text-base text-blue-700 font-semibold mb-4">
+          🗺 Mode sélectionné :{' '}
+          {hunt.is_real_world ? 'Monde Réel' : 'Monde Cartographique'}
+        </Text>
+
+        <Button
+          type="destructive"
+          size="md"
+          onPress={() =>
+            navigation.navigate('EditMap' as any, {treasureHuntId: hunt.id})
+          }>
+          Gérer les caches sur la carte
+        </Button>
       </View>
     </SafeAreaView>
   );

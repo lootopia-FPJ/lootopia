@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {
   Modal,
   View,
@@ -6,9 +6,11 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Picker} from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 interface CacheFormProps {
   visible: boolean;
@@ -28,7 +30,12 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [containsCrowns, setContainsCrowns] = useState('0');
+  const [open, setOpen] = useState(false);
   const [worldType, setWorldType] = useState('Monde Réel');
+  const [items, setItems] = useState([
+    {label: 'Monde Réel', value: 'Monde Réel'},
+    {label: 'Monde Cartographique', value: 'Monde Cartographique'},
+  ]);
 
   const handleSave = () => {
     onSubmit({
@@ -54,68 +61,66 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
 
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.overlay}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={styles.overlay}>
         <View style={styles.modal}>
-          <View style={styles.pickerContainer}>
-            <Text style={styles.label}>World Type</Text>
-            <Picker
-              selectedValue={worldType}
-              onValueChange={value => setWorldType(value)}
-              style={styles.picker}>
-              <Picker.Item label="Monde Réel" value="Monde Réel" />
-              <Picker.Item
-                label="Monde Cartographique"
-                value="Monde Cartographique"
-              />
-            </Picker>
-          </View>
-          <ScrollView>
-            <Text style={styles.title}>Add Cache Details</Text>
+          <Text style={styles.title}>Add Cache Details</Text>
 
-            <View style={styles.pickerContainer}>
-              <Text style={styles.label}>World Type</Text>
-              <Picker
-                selectedValue={worldType}
-                onValueChange={value => setWorldType(value)}
-                style={styles.picker}>
-                <Picker.Item label="Monde Réel" value="Monde Réel" />
-                <Picker.Item
-                  label="Monde Cartographique"
-                  value="Monde Cartographique"
-                />
-              </Picker>
-            </View>
+          <View className="z-50 mb-3">
+            <Text className="text-sm font-medium mb-1">World Type</Text>
+            <DropDownPicker
+              open={open}
+              value={worldType}
+              items={items}
+              setOpen={setOpen}
+              setValue={setWorldType}
+              setItems={setItems}
+              listMode="SCROLLVIEW"
+              style={{zIndex: 1000}}
+              dropDownContainerStyle={{zIndex: 1000}}
+            />
+          </View>
+
+          <ScrollView keyboardShouldPersistTaps="handled">
             <TextInput
-              style={styles.input}
-              placeholder="Name"
+              className="border border-gray-300 rounded-lg p-3 mb-3"
+              placeholder="Nom de la cache"
+              placeholderTextColor="#666"
               value={name}
               onChangeText={setName}
             />
             <TextInput
-              style={styles.input}
-              placeholder="Description"
+              className="border border-gray-300 rounded-lg p-3 mb-3"
+              placeholder="Brève description"
+              placeholderTextColor="#666"
               value={description}
               onChangeText={setDescription}
             />
             <TextInput
-              style={styles.input}
-              placeholder="Crowns (optional)"
+              className="border border-gray-300 rounded-lg p-3 mb-3"
+              placeholder="Nombre de couronnes"
+              placeholderTextColor="#666"
               keyboardType="numeric"
               value={containsCrowns}
               onChangeText={setContainsCrowns}
             />
 
-            <View style={styles.buttonRow}>
-              <TouchableOpacity onPress={onClose} style={styles.cancelBtn}>
-                <Text style={styles.btnText}>Cancel</Text>
+            <View className="flex-row justify-between mt-3">
+              <TouchableOpacity
+                onPress={onClose}
+                className="bg-gray-400 py-3 px-5 rounded-lg flex-1 mr-2">
+                <Text className="text-white text-center">Annuler</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleSave} style={styles.saveBtn}>
-                <Text style={styles.btnText}>Save</Text>
+              <TouchableOpacity
+                onPress={handleSave}
+                className="bg-emerald-600 py-3 px-5 rounded-lg flex-1 ml-2">
+                <Text className="text-white text-center">Sauvegarder</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
@@ -140,53 +145,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 12,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 12,
-  },
-  cancelBtn: {
-    backgroundColor: '#ccc',
-    padding: 12,
-    borderRadius: 10,
-    flex: 1,
-    marginRight: 8,
-  },
-  saveBtn: {
-    backgroundColor: '#00b894',
-    padding: 12,
-    borderRadius: 10,
-    flex: 1,
-    marginLeft: 8,
-  },
-  btnText: {
-    color: '#fff',
-    textAlign: 'center',
-  },
-  pickerContainer: {
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
-
-  picker: {
-    height: 100,
-    width: '100%',
-  },
-
-  label: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 4,
   },
 });

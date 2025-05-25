@@ -91,6 +91,7 @@ const LoginScreen = () => {
                 onBlur={handleBlur('email')}
                 value={values.email}
                 className="flex-1 text-base"
+                placeholderTextColor="#666"
               />
             </View>
             {errors.email && touched.email && (
@@ -104,6 +105,7 @@ const LoginScreen = () => {
                 onBlur={handleBlur('password')}
                 value={values.password}
                 className="flex-1 text-base"
+                placeholderTextColor="#666"
               />
             </View>
             {errors.password && touched.password && (
