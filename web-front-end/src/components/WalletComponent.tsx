@@ -51,7 +51,7 @@ const WalletComponent = () => {
       const url = `${import.meta.env.VITE_WALLET_URL}/${userId}`
       const res = await axios.get(url, { withCredentials: true })
       setBalance(res.data)
-    } catch (err) {
+    } catch {
       toast.error('Erreur lors du chargement du solde')
     }
   }
@@ -64,7 +64,7 @@ const WalletComponent = () => {
       const url = `${import.meta.env.VITE_WALLET_URL}/${userId}/transactions`
       const res = await axios.get(url, { withCredentials: true })
       setTransactions(res.data)
-    } catch (err) {
+    } catch {
       toast.error('Erreur lors du chargement des transactions')
     }
   }
@@ -82,7 +82,7 @@ const WalletComponent = () => {
       } else {
         toast.error('URL Stripe non reçue.')
       }
-    } catch (error) {
+    } catch {
       toast.error('Erreur lors de la création de la session Stripe')
     }
   }
