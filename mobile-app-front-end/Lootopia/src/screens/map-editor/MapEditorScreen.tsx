@@ -41,10 +41,10 @@ export default function MapEditorScreen() {
       setMarkers(prev => [...prev, savedCache]);
       setModalVisible(false);
       setSelectedCoord(null);
-      Alert.alert('Cache Saved!', `ID: ${savedCache.id}`);
+      Alert.alert('Cache sauvegardé!', `ID: ${savedCache.id}`);
     } catch (err) {
       console.error('Error saving cache:', err);
-      Alert.alert('Error', 'Failed to save cache');
+      Alert.alert("Erreur', 'Échec de l'enregistrement du cache");
     }
   };
 
@@ -65,7 +65,7 @@ export default function MapEditorScreen() {
             key={index}
             coordinate={marker}
             title={`Stage ${index + 1}`}
-            description="Press to edit"
+            description="Appuyer sur pour modifier"
           />
         ))}
       </MapView>

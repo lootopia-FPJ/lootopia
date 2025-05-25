@@ -12,3 +12,14 @@ export const getTreasureHuntById = async (id: number) => {
   const response = await axiosClient.get<TreasureHunt>(`/treasure-hunts/${id}`);
   return response.data;
 };
+
+export const getMyTreasureHunts = async (
+  userId: number,
+  page = 1,
+  limit = 10,
+) => {
+  const response = await axiosClient.get(
+    `/treasure-hunts/user/${userId}?page=${page}&limit=${limit}`,
+  );
+  return response.data;
+};

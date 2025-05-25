@@ -65,10 +65,10 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.overlay}>
         <View style={styles.modal}>
-          <Text style={styles.title}>Add Cache Details</Text>
+          <Text style={styles.title}>Ajouter les détails du cache</Text>
 
           <View className="z-50 mb-3">
-            <Text className="text-sm font-medium mb-1">World Type</Text>
+            <Text className="text-sm font-medium mb-1">Type de monde</Text>
             <DropDownPicker
               open={open}
               value={worldType}
@@ -77,8 +77,8 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
               setValue={setWorldType}
               setItems={setItems}
               listMode="SCROLLVIEW"
-              style={{zIndex: 1000}}
-              dropDownContainerStyle={{zIndex: 1000}}
+              zIndex={1000}
+              dropDownContainerStyle={styles.dropDownContainer}
             />
           </View>
 
@@ -145,5 +145,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
+  },
+  dropDownContainer: {
+    zIndex: 1000,
   },
 });

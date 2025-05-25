@@ -51,7 +51,11 @@ export class TreasureHuntsController {
 
   @UseGuards(AuthGuard('jwt'), SelfOrAdminGuard)
   @Get('user/:id')
-  findByUser(@Param('id') id: string) {
-    return this.treasureHuntsService.findByUser(+id)
+  findByUserPaginated(
+    @Param('id') id: string,
+    @Query('page') page = '1',
+    @Query('limit') limit = '10'
+  ) {
+    return this.treasureHuntsService.findByUserPaginated(+id, +page, +limit)
   }
 }

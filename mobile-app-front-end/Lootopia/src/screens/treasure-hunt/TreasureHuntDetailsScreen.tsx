@@ -20,7 +20,7 @@ const TreasureHuntDetailsScreen = () => {
   const [hunt, setHunt] = useState<TreasureHunt | null>(null);
   const [loading, setLoading] = useState(true);
   const route = useRoute<TreasureHuntDetailsRouteProp>();
-  const {id} = route.params;
+  const {id, from} = route.params;
 
   useEffect(() => {
     const fetchHunt = async () => {
@@ -101,14 +101,16 @@ const TreasureHuntDetailsScreen = () => {
           {hunt.is_real_world ? 'Monde Réel' : 'Monde Cartographique'}
         </Text>
 
-        <Button
-          type="destructive"
-          size="md"
-          onPress={() =>
-            navigation.navigate('EditMap' as any, {treasureHuntId: hunt.id})
-          }>
-          Gérer les caches sur la carte
-        </Button>
+        {from === 'my-hunts' && (
+          <Button
+            type="destructive"
+            size="md"
+            onPress={() =>
+              navigation.navigate('EditMap' as any, {treasureHuntId: hunt.id})
+            }>
+            Gérer les caches sur la carte
+          </Button>
+        )}
       </View>
     </SafeAreaView>
   );
