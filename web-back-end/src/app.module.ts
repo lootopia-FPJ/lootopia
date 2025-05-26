@@ -9,6 +9,7 @@ import { CloudinaryModule } from './common/cloudinary/cloudinary.module'
 import { StripeModule } from './modules/stripe/stripe.module'
 import { WalletModule } from './modules/wallet/wallet.module'
 import { LoggerModule } from './common/logger/logger.module'
+import { ArtefactsModule } from './modules/artefacts/artefacts.module'
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { LoggerModule } from './common/logger/logger.module'
     StripeModule.forRootAsync(),
     WalletModule,
     LoggerModule,
+    ArtefactsModule,
   ],
 })
 export class AppModule {}
