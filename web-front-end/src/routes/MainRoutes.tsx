@@ -16,6 +16,9 @@ import PrivateRoute from '../components/PrivateRoute'
 import EditProfile from '../pages/EditProfile'
 import AddTreasureHunt from '../pages/AddTreasureHunt'
 import MyHunts from '../pages/MyHunts'
+import Wallet from '../pages/Wallet'
+import Success from '../pages/Success'
+import Cancel from '../pages/Cancel'
 
 const MainRoutes = () => {
   return (
@@ -59,6 +62,30 @@ const MainRoutes = () => {
           element={
             <PrivateRoute>
               <MyHunts />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="wallet"
+          element={
+            <PrivateRoute>
+              <Wallet />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="success"
+          element={
+            <PrivateRoute>
+              <Success />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="cancel"
+          element={
+            <PrivateRoute>
+              <Cancel />
             </PrivateRoute>
           }
         />
