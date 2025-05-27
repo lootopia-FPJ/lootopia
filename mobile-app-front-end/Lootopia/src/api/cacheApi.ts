@@ -13,3 +13,8 @@ export const getCachesByTreasureHunt = async (huntId: number) => {
   const response = await axiosClient.get(`/caches/hunt/${huntId}`);
   return response.data;
 };
+
+export const updateCache = async (id: number, data: any) => {
+  const response = await axiosClient.patch(`/caches/${id}`, data);
+  return response.data;
+};

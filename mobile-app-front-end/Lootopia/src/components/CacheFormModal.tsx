@@ -25,7 +25,6 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
   visible,
   onClose,
   onSubmit,
-  coordinates,
   treasureHuntId,
   initialData,
 }) => {
@@ -59,8 +58,6 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
       name,
       description,
       contains_crowns: parseFloat(containsCrowns),
-      latitude: coordinates.latitude,
-      longitude: coordinates.longitude,
       treasure_hunt_id: treasureHuntId,
       world_type: worldType,
       size: 80,
@@ -71,6 +68,7 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
       digging_delay: diggingDelay || '2 minutes',
       digging_cost: diggingCost ? parseFloat(diggingCost) : 5,
     });
+
     setName('');
     setDescription('');
     setContainsCrowns('0');

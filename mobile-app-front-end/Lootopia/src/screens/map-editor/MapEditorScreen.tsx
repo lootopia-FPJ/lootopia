@@ -2,9 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Alert, Text} from 'react-native';
 import MapView, {Marker, MapPressEvent, Callout} from 'react-native-maps';
 import CacheFormModal from '../../components/CacheFormModal';
-import {createCache} from '../../api/cacheApi';
+import {
+  createCache,
+  updateCache,
+  getCachesByTreasureHunt,
+} from '../../api/cacheApi';
 import {useRoute, RouteProp} from '@react-navigation/native';
-import {getCachesByTreasureHunt} from '../../api/cacheApi';
 
 type MarkerType = {
   id: number;
@@ -54,22 +57,48 @@ export default function MapEditorScreen() {
     }, 100);
   };
 
-  const handleSubmitCache = async (data: any, huntId: number) => {
+  const handleSubmitCache = async (data: any) => {
     try {
-      const payload = {
+      let payload = {
         ...data,
-        treasure_hunt_id: huntId,
       };
 
-      const savedCache = await createCache(payload);
-      setMarkers(prev => [...prev, savedCache]);
+      let savedCache: MarkerType;
+
+      const isEdit =
+        selectedCoord?.id && markers.some(m => m.id === selectedCoord.id);
+
+      if (isEdit) {
+        delete (payload as any).treasure_hunt_id;
+        delete (payload as any).latitude;
+        delete (payload as any).longitude;
+
+        savedCache = await updateCache(selectedCoord!.id, payload);
+        setMarkers(prev =>
+          prev.map(m => (m.id === selectedCoord!.id ? savedCache : m)),
+        );
+      } else {
+        payload = {
+          ...payload,
+          treasure_hunt_id: treasureHuntId,
+          latitude: selectedCoord?.latitude,
+          longitude: selectedCoord?.longitude,
+        };
+
+        savedCache = await createCache(payload);
+        setMarkers(prev => [...prev, savedCache]);
+      }
+
       setModalVisible(false);
       setSelectedCoord(null);
-      Alert.alert('Cache sauvegardé!', `ID: ${savedCache.id}`);
-      console.log('savedCache', savedCache);
-    } catch (err) {
-      console.error('Error saving cache:', err);
-      Alert.alert('Erreur', "Échec de l'enregistrement du cache");
+      Alert.alert('Succès', 'Cache sauvegardé!');
+    } catch (err: any) {
+      Alert.alert(
+        'Erreur',
+        `Échec de l'enregistrement du cache: ${
+          err?.response?.data?.message || 'Erreur inconnue'
+        }`,
+      );
     }
   };
 
@@ -105,7 +134,10 @@ export default function MapEditorScreen() {
               latitude: marker.latitude,
               longitude: marker.longitude,
             }}>
-            <Callout onPress={() => handleEditMarker(marker)}>
+            <Callout
+              onPress={() => {
+                handleEditMarker(marker);
+              }}>
               <View style={styles.calloutContainer}>
                 <Text style={styles.boldText}>{marker.name || 'Sans nom'}</Text>
                 <Text style={styles.calloutSubText}>
@@ -120,7 +152,7 @@ export default function MapEditorScreen() {
         <CacheFormModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
-          onSubmit={data => handleSubmitCache(data, treasureHuntId)}
+          onSubmit={handleSubmitCache}
           coordinates={{
             latitude: selectedCoord.latitude,
             longitude: selectedCoord.longitude,

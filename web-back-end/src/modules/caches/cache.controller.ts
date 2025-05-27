@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param, Delete, ParseIntPipe } from '@nestjs/common'
+import { Controller, Post, Body, Get, Param, Delete, ParseIntPipe, Patch } from '@nestjs/common'
 import { CacheService } from './cache.service'
 import { CreateCacheDto } from './dto/create-cache.dto'
+import { UpdateCacheDto } from './dto/update-cache.dto'
 
 @Controller('caches')
 export class CacheController {
@@ -14,6 +15,11 @@ export class CacheController {
   @Get('hunt/:huntId')
   findAllByHunt(@Param('huntId', ParseIntPipe) huntId: number) {
     return this.cacheService.findAllByHuntId(huntId)
+  }
+
+  @Patch(':id')
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateCacheDto: UpdateCacheDto) {
+    return this.cacheService.update(id, updateCacheDto)
   }
 
   @Delete(':id')

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm'
 import Cache from './entities/cache.entity'
 import { CreateCacheDto } from './dto/create-cache.dto'
 import TreasureHunt from '../treasure-hunts/entities/treasure-hunt.entity'
+import { UpdateCacheDto } from './dto/update-cache.dto'
 
 @Injectable()
 export class CacheService {
@@ -25,6 +26,15 @@ export class CacheService {
 
   async findAllByHuntId(huntId: number) {
     return this.cacheRepository.find({ where: { treasure_hunt: { id: huntId } } })
+  }
+
+  async update(id: number, dto: UpdateCacheDto) {
+    delete (dto as any).treasure_hunt_id
+    delete (dto as any).latitude
+    delete (dto as any).longitude
+
+    await this.cacheRepository.update(id, dto)
+    return this.cacheRepository.findOneBy({ id })
   }
 
   async delete(id: number) {
