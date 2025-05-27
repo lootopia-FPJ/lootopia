@@ -1,13 +1,21 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Alert} from 'react-native';
-import MapView, {Marker, MapPressEvent} from 'react-native-maps';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, Alert, Text} from 'react-native';
+import MapView, {Marker, MapPressEvent, Callout} from 'react-native-maps';
 import CacheFormModal from '../../components/CacheFormModal';
 import {createCache} from '../../api/cacheApi';
 import {useRoute, RouteProp} from '@react-navigation/native';
+import {getCachesByTreasureHunt} from '../../api/cacheApi';
 
 type MarkerType = {
+  id: number;
+  name: string;
+  description?: string;
   latitude: number;
   longitude: number;
+  contains_crowns: number;
+  world_type: string;
+  digging_delay?: string;
+  digging_cost?: number;
 };
 
 type RootStackParamList = {
@@ -20,14 +28,30 @@ export default function MapEditorScreen() {
   const [markers, setMarkers] = useState<MarkerType[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCoord, setSelectedCoord] = useState<MarkerType | null>(null);
-
   const route = useRoute<MapEditorRouteProp>();
   const treasureHuntId = route.params.treasureHuntId;
 
   const handleMapPress = (e: MapPressEvent) => {
     const {latitude, longitude} = e.nativeEvent.coordinate;
-    setSelectedCoord({latitude, longitude});
+    setSelectedCoord({
+      id: Date.now(),
+      name: '',
+      description: '',
+      latitude,
+      longitude,
+      contains_crowns: 0,
+      world_type: 'Monde Réel',
+      digging_delay: '',
+      digging_cost: 0,
+    });
     setModalVisible(true);
+  };
+
+  const handleEditMarker = (marker: MarkerType) => {
+    setSelectedCoord(marker);
+    setTimeout(() => {
+      setModalVisible(true);
+    }, 100);
   };
 
   const handleSubmitCache = async (data: any, huntId: number) => {
@@ -42,11 +66,25 @@ export default function MapEditorScreen() {
       setModalVisible(false);
       setSelectedCoord(null);
       Alert.alert('Cache sauvegardé!', `ID: ${savedCache.id}`);
+      console.log('savedCache', savedCache);
     } catch (err) {
       console.error('Error saving cache:', err);
-      Alert.alert("Erreur', 'Échec de l'enregistrement du cache");
+      Alert.alert('Erreur', "Échec de l'enregistrement du cache");
     }
   };
+
+  useEffect(() => {
+    const fetchCaches = async () => {
+      try {
+        const caches = await getCachesByTreasureHunt(treasureHuntId);
+        setMarkers(caches);
+      } catch (err) {
+        console.error('Error fetching caches:', err);
+      }
+    };
+
+    fetchCaches();
+  }, [treasureHuntId]);
 
   return (
     <View style={styles.container}>
@@ -60,22 +98,37 @@ export default function MapEditorScreen() {
           longitudeDelta: 0.01,
         }}
         onPress={handleMapPress}>
-        {markers.map((marker, index) => (
+        {markers.map(marker => (
           <Marker
-            key={index}
-            coordinate={marker}
-            title={`Stage ${index + 1}`}
-            description="Appuyer sur pour modifier"
-          />
+            key={marker.id}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+            }}>
+            <Callout onPress={() => handleEditMarker(marker)}>
+              <View style={styles.calloutContainer}>
+                <Text style={styles.boldText}>{marker.name || 'Sans nom'}</Text>
+                <Text style={styles.calloutSubText}>
+                  Appuyer ici pour modifier
+                </Text>
+              </View>
+            </Callout>
+          </Marker>
         ))}
       </MapView>
-      <CacheFormModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onSubmit={data => handleSubmitCache(data, treasureHuntId)}
-        coordinates={selectedCoord || {latitude: 0, longitude: 0}}
-        treasureHuntId={treasureHuntId}
-      />
+      {modalVisible && selectedCoord && (
+        <CacheFormModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onSubmit={data => handleSubmitCache(data, treasureHuntId)}
+          coordinates={{
+            latitude: selectedCoord.latitude,
+            longitude: selectedCoord.longitude,
+          }}
+          treasureHuntId={treasureHuntId}
+          initialData={selectedCoord}
+        />
+      )}
     </View>
   );
 }
@@ -86,5 +139,15 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+  },
+  calloutContainer: {
+    padding: 6,
+  },
+  boldText: {
+    fontWeight: 'bold',
+  },
+  calloutSubText: {
+    fontSize: 12,
+    color: 'gray',
   },
 });
