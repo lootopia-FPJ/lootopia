@@ -1,20 +1,19 @@
-import axios from 'axios';
 import axiosClient from './axiosClient';
 
-const API_URL = 'http://192.168.1.103:3000/api/caches';
+const BASE_PATH = '/caches';
 
 export const createCache = async (data: any) => {
-  const response = await axios.post(API_URL, data);
+  const response = await axiosClient.post(BASE_PATH, data);
   console.log('Payload sent to backend:', data);
   return response.data;
 };
 
 export const getCachesByTreasureHunt = async (huntId: number) => {
-  const response = await axiosClient.get(`/caches/hunt/${huntId}`);
+  const response = await axiosClient.get(`${BASE_PATH}/hunt/${huntId}`);
   return response.data;
 };
 
 export const updateCache = async (id: number, data: any) => {
-  const response = await axiosClient.patch(`/caches/${id}`, data);
+  const response = await axiosClient.patch(`${BASE_PATH}/${id}`, data);
   return response.data;
 };

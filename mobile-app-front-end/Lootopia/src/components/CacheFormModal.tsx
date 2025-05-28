@@ -82,7 +82,11 @@ const CacheFormModal: React.FC<CacheFormProps> = ({
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.overlay}>
         <View style={styles.modal}>
-          <Text style={styles.title}>Ajouter les détails du cache</Text>
+          <Text style={styles.title}>
+            {initialData
+              ? 'Modifier les détails du cache'
+              : 'Créer une nouvelle cache'}
+          </Text>
 
           <View className="z-50 mb-3">
             <Text className="text-sm font-medium mb-1">Type de monde</Text>
