@@ -8,6 +8,7 @@ import TreasureHuntsScreen from '../screens/treasure-hunt/TreasureHuntsScreen';
 import TreasureHuntDetailsScreen from '../screens/treasure-hunt/TreasureHuntDetailsScreen';
 import MapEditorScreen from '../screens/map-editor/MapEditorScreen';
 import MyTreasureHuntsScreen from '../screens/my-treasure-hunt/MyTreasureHuntsScreen';
+import TreasureHuntMapView from '../screens/treasure-hunt/TreasureHuntMapView';
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,11 @@ const RootNavigator = () => (
       }}
     />
     <Stack.Screen name="EditMap" component={MapEditorScreen} />
+    <Stack.Screen
+      name="TreasureHuntMapView"
+      component={TreasureHuntMapView}
+      options={{title: 'Carte de la chasse'}}
+    />
   </Stack.Navigator>
 );
 

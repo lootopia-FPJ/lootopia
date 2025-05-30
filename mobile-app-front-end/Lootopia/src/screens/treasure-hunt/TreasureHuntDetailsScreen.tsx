@@ -111,6 +111,19 @@ const TreasureHuntDetailsScreen = () => {
             Gérer les caches sur la carte
           </Button>
         )}
+
+        {from !== 'my-hunts' && (
+          <Button
+            type="destructive"
+            size="md"
+            onPress={() =>
+              navigation.navigate('TreasureHuntMapView' as any, {
+                treasureHuntId: hunt.id,
+              })
+            }>
+            Participer
+          </Button>
+        )}
       </View>
     </SafeAreaView>
   );

@@ -1,56 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>Lootopia</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>en</string>
+		<key>CFBundleDisplayName</key>
+		<string>Lootopia</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>$(PRODUCT_NAME)</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(MARKETING_VERSION)</string>
+		<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>For better indoor positioning experience.</string>
+		<key>NSBluetoothPeripheralUsageDescription</key>
+		<string>For better indoor positioning experience.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Nous avons besoin de votre position pour vous offrir une expérience optimale, même en
+			arrière-plan.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Nous avons besoin de votre position en arrière-plan pour suivre vos déplacements même
+			lorsque l&apos;application est fermée.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Nous avons besoin de votre position pour vous offrir une expérience personnalisée.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>For better indoor positioning experience</string>
+		<key>NSContactsUsageDescription</key>
+		<string>Cette application nécessite l'accès aux contacts afin d'offrir une meilleure expérience.</string>
+		<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>For better indoor positioning experience.</string>
+		<key>NSBluetoothPeripheralUsageDescription</key>
+		<string>For better indoor positioning experience.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Nous avons besoin de votre position pour vous offrir une expérience optimale, même en
+			arrière-plan.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Nous avons besoin de votre position en arrière-plan pour suivre vos déplacements même
+			lorsque l&apos;application est fermée.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Nous avons besoin de votre position pour vous offrir une expérience personnalisée.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>For better indoor positioning experience</string>
+		<key>NSContactsUsageDescription</key>
+		<string>Cette application nécessite l'accès aux contacts afin d'offrir une meilleure expérience.</string>
+		<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>For better indoor positioning experience.</string>
+		<key>NSBluetoothPeripheralUsageDescription</key>
+		<string>For better indoor positioning experience.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Nous avons besoin de votre position pour vous offrir une expérience optimale, même en
+			arrière-plan.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Nous avons besoin de votre position en arrière-plan pour suivre vos déplacements même
+			lorsque l&apos;application est fermée.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Nous avons besoin de votre position pour vous offrir une expérience personnalisée.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>For better indoor positioning experience</string>
+		<key>NSContactsUsageDescription</key>
+		<string>Cette application nécessite l'accès aux contacts afin d'offrir une meilleure expérience.</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(CURRENT_PROJECT_VERSION)</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true />
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<false />
+			<key>NSAllowsLocalNetworking</key>
+			<true />
+		</dict>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string />
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>arm64</string>
+		</array>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false />
+		<key>UIAppFonts</key>
+		<array>
+			<string>Fuggles Regular.ttf</string>
+			<string>Inter.ttf</string>
+		</array>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>arm64</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Fuggles Regular.ttf</string>
-		<string>Inter.ttf</string>
-	</array>
-</dict>
 </plist>
