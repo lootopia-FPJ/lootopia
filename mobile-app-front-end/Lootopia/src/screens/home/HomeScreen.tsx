@@ -32,12 +32,6 @@ const HomeScreen = () => {
           onPress={() => navigation.navigate('Login')}>
           Se connecter
         </Button>
-        <Button
-          type="destructive"
-          size="md"
-          onPress={() => navigation.navigate('EditMap')}>
-          Edit map
-        </Button>
       </View>
       <View className="absolute bottom-10 flex-row gap-6">
         <Text className="text-black text-sm">Termes</Text>

@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, SafeAreaView, Alert} from 'react-native';
 import {getMyTreasureHunts} from '../../api/treasureHuntApi';
 import {useNavigation} from '@react-navigation/native';
 import {InfiniteScrollList} from '../../components/InfiniteScrollList';
-import {useUser} from '../../context/UserContext'; // 👈 make sure this exists
+import {useUser} from '../../context/UserContext';
 import {TreasureHunt} from '../../types/treasure-hunt';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../navigation/types';
