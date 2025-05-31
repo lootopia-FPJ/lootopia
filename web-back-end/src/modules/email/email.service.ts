@@ -31,6 +31,8 @@ export class EmailService {
   }
 
   async sendActivationEmail(email: string, userId: number) {
+    console.log('Email User: ' + this.configService.get('EMAIL_USER'))
+    console.log('Email Pass: ' + this.configService.get('EMAIL_PASS'))
     const token = this.jwtService.sign(
       { sub: userId },
       {

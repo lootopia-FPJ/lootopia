@@ -25,7 +25,7 @@ const MainRoutes = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="a-propos" element={<About />} />
+        <Route path="about" element={<About />} />
         <Route path="evenement" element={<Events />} />
         <Route path="partenariat" element={<Partnership />} />
         <Route path="boutique" element={<Boutique />} />
