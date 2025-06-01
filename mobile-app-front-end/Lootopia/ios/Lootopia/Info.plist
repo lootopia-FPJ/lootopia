@@ -66,6 +66,8 @@
 		<string>For better indoor positioning experience</string>
 		<key>NSContactsUsageDescription</key>
 		<string>Cette application nécessite l'accès aux contacts afin d'offrir une meilleure expérience.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Nous avons besoin d'accéder à votre caméra pour la fonctionnalité AR</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleVersion</key>

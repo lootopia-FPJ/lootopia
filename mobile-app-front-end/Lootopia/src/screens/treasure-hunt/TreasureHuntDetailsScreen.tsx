@@ -124,6 +124,9 @@ const TreasureHuntDetailsScreen = () => {
             Participer
           </Button>
         )}
+        <Button type="outline" onPress={() => navigation.navigate('ARScan')}>
+          Scanner un repère en RA
+        </Button>
       </View>
     </SafeAreaView>
   );

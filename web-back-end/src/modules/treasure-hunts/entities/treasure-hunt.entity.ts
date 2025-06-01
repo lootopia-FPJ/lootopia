@@ -12,6 +12,7 @@ import {
 } from 'typeorm'
 import User from '../../users/entities/user.entity'
 import Cache from '../../caches/entities/cache.entity'
+import Stage from 'src/modules/stage/entities/stage.entity'
 
 export enum RewardType {
   INTERNAL = 'internal',
@@ -79,4 +80,7 @@ export default class TreasureHunt {
 
   @OneToMany(() => Cache, (cache) => cache.treasure_hunt, { cascade: true })
   caches!: Cache[]
+
+  @OneToMany(() => Stage, (stage) => stage.treasureHunt)
+  stages!: Stage[]
 }

@@ -11,6 +11,7 @@ import { StripeModule } from './modules/stripe/stripe.module'
 import { WalletModule } from './modules/wallet/wallet.module'
 import { LoggerModule } from './common/logger/logger.module'
 import { ArtefactsModule } from './modules/artefacts/artefacts.module'
+import { StageModule } from './modules/stage/stage.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ArtefactsModule } from './modules/artefacts/artefacts.module'
     UsersModule,
     TreasureHuntsModule,
     CacheModule,
+    StageModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

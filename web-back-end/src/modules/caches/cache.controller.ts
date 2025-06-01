@@ -2,7 +2,6 @@ import { Controller, Post, Body, Get, Param, Delete, ParseIntPipe, Patch } from 
 import { CacheService } from './cache.service'
 import { CreateCacheDto } from './dto/create-cache.dto'
 import { UpdateCacheDto } from './dto/update-cache.dto'
-
 @Controller('caches')
 export class CacheController {
   constructor(private readonly cacheService: CacheService) {}
