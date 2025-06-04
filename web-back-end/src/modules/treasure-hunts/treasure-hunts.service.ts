@@ -48,7 +48,10 @@ export class TreasureHuntsService {
   }
 
   async findOne(id: number) {
-    return await this.treasureHuntRepository.findOneBy({ id })
+    return await this.treasureHuntRepository.findOne({
+      where: { id },
+      relations: ['stages', 'stages.creator'],
+    })
   }
 
   async findByUserPaginated(userId: number, page = 1, limit = 10) {

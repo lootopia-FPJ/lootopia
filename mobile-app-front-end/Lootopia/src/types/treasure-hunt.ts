@@ -1,3 +1,5 @@
+import {Stage} from './stage';
+
 export type TreasureHunt = {
   id: number;
   name: string;
@@ -13,4 +15,5 @@ export type TreasureHunt = {
   is_draft: boolean;
   difficulty: number;
   created_by: number;
+  stages?: Stage[];
 };

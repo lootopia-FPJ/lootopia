@@ -21,6 +21,7 @@ const TreasureHuntDetailsScreen = () => {
   const [loading, setLoading] = useState(true);
   const route = useRoute<TreasureHuntDetailsRouteProp>();
   const {id, from} = route.params;
+  const firstStageId = hunt?.stages?.[0]?.id;
 
   useEffect(() => {
     const fetchHunt = async () => {
@@ -124,9 +125,15 @@ const TreasureHuntDetailsScreen = () => {
             Participer
           </Button>
         )}
-        <Button type="outline" onPress={() => navigation.navigate('ARScan')}>
-          Scanner un repère en RA
-        </Button>
+        {firstStageId !== undefined && (
+          <Button
+            type="outline"
+            onPress={() =>
+              navigation.navigate('ARScan', {stageId: firstStageId})
+            }>
+            Scanner un repère en RA
+          </Button>
+        )}
       </View>
     </SafeAreaView>
   );

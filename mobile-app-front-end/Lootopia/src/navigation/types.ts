@@ -8,7 +8,7 @@ export type RootStackParamList = {
   TreasureHunts: undefined;
   TreasureHuntDetails: {id: number; from?: 'my-hunts' | 'all-hunts'};
   EditMap: undefined;
-  ARScan: undefined;
+  ARScan: {stageId: number};
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<
