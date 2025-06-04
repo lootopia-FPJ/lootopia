@@ -1,8 +1,19 @@
-import { Controller, Post, Body, Get, Param, Delete, ParseIntPipe, Patch } from '@nestjs/common'
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Delete,
+  ParseIntPipe,
+  Patch,
+  UseGuards,
+} from '@nestjs/common'
 import { CacheService } from './cache.service'
 import { CreateCacheDto } from './dto/create-cache.dto'
 import { UpdateCacheDto } from './dto/update-cache.dto'
-
+import { AuthGuard } from '@nestjs/passport'
+@UseGuards(AuthGuard('jwt'))
 @Controller('caches')
 export class CacheController {
   constructor(private readonly cacheService: CacheService) {}
