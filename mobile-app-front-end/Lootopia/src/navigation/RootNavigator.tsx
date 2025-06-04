@@ -9,7 +9,7 @@ import TreasureHuntDetailsScreen from '../screens/treasure-hunt/TreasureHuntDeta
 import MapEditorScreen from '../screens/map-editor/MapEditorScreen';
 import MyTreasureHuntsScreen from '../screens/my-treasure-hunt/MyTreasureHuntsScreen';
 import TreasureHuntMapView from '../screens/treasure-hunt/TreasureHuntMapView';
-//import ARScanScreen from '../screens/scan-cache/ARScanScreen';
+import ARScanScreen from '../screens/scan-cache/ARScanScreen';
 
 const Stack = createStackNavigator();
 
@@ -66,7 +66,7 @@ const RootNavigator = () => (
       component={TreasureHuntMapView}
       options={{title: 'Carte de la chasse'}}
     />
-    {/* <Stack.Screen name="ARScan" component={ARScanScreen} /> */}
+    <Stack.Screen name="ARScan" component={ARScanScreen} />
   </Stack.Navigator>
 );
 
