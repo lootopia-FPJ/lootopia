@@ -6,7 +6,8 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   Dashboard: undefined;
   TreasureHunts: undefined;
-  TreasureHuntDetails: {id: number};
+  TreasureHuntDetails: {id: number; from?: 'my-hunts' | 'all-hunts'};
+  EditMap: undefined;
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<

@@ -51,8 +51,10 @@ export class TreasureHuntsService {
     return await this.treasureHuntRepository.findOneBy({ id })
   }
 
-  async findByUser(userId: number) {
-    return await this.treasureHuntRepository.find({
+  async findByUserPaginated(userId: number, page = 1, limit = 10) {
+    const skip = (page - 1) * limit
+
+    return this.treasureHuntRepository.find({
       where: {
         created_by: { id: userId },
       },
@@ -60,6 +62,8 @@ export class TreasureHuntsService {
       order: {
         created_at: 'DESC',
       },
+      skip,
+      take: limit,
     })
   }
 

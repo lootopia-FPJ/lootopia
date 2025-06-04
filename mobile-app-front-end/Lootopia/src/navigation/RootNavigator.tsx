@@ -6,6 +6,8 @@ import ForgotPasswordScreen from '../screens/forgot-password/ForgotPasswordScree
 import DashboardScreen from '../screens/dashboard/DashboardScreen';
 import TreasureHuntsScreen from '../screens/treasure-hunt/TreasureHuntsScreen';
 import TreasureHuntDetailsScreen from '../screens/treasure-hunt/TreasureHuntDetailsScreen';
+import MapEditorScreen from '../screens/map-editor/MapEditorScreen';
+import MyTreasureHuntsScreen from '../screens/my-treasure-hunt/MyTreasureHuntsScreen';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +38,11 @@ const RootNavigator = () => (
       options={{headerShown: false}}
     />
     <Stack.Screen
+      name="MyTreasureHunts"
+      component={MyTreasureHuntsScreen}
+      options={{title: 'Mes Chasses', headerShown: true}}
+    />
+    <Stack.Screen
       name="TreasureHunts"
       component={TreasureHuntsScreen}
       options={{
@@ -51,6 +58,7 @@ const RootNavigator = () => (
         headerShown: true,
       }}
     />
+    <Stack.Screen name="EditMap" component={MapEditorScreen} />
   </Stack.Navigator>
 );
 
