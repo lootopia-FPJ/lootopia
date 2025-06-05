@@ -1887,6 +1887,10 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.1)
+  - ViroKit (1.0):
+    - React
+  - ViroReact (1.0):
+    - React
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1966,6 +1970,8 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - "ViroKit (from `../node_modules/@reactvision/react-viro/ios/dist/ViroRenderer/`)"
+  - "ViroReact (from `../node_modules/@reactvision/react-viro/ios/`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -2122,6 +2128,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  ViroKit:
+    :path: "../node_modules/@reactvision/react-viro/ios/dist/ViroRenderer/"
+  ViroReact:
+    :path: "../node_modules/@reactvision/react-viro/ios/"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -2201,8 +2211,10 @@ SPEC CHECKSUMS:
   RNScreens: 7a4eb8a0fe4dc5537e10559ddedc4709a9cd0561
   RNVectorIcons: 14a0c42f16a26bcc3e79a19bc1c5718284b1d469
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  ViroKit: 700d3d4ca086368d06224de1cbbc19781aea2094
+  ViroReact: f4980e6b04918c4340637f9cbaae22a6bb7ea440
   Yoga: afd04ff05ebe0121a00c468a8a3c8080221cb14c
 
-PODFILE CHECKSUM: 52496e4bcd5d834f18c2c20f9e876a1990d4a516
+PODFILE CHECKSUM: 8c83517a67f32e838ee56ad5954e3d39b4caa5c6
 
 COCOAPODS: 1.16.2

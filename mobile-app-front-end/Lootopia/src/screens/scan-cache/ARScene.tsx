@@ -5,14 +5,35 @@ import {
   ViroARImageMarker,
   ViroBox,
   ViroText,
-} from '@viro-community/react-viro';
+  ViroMaterials,
+  ViroARTrackingTargets,
+} from '@reactvision/react-viro';
 import {validateStageByAR} from '../../api/stageApi';
 
-interface ARSceneProps {
-  stageId: number;
-}
+let CURRENT_STAGE_ID: number;
 
-const ARScene: React.FC<ARSceneProps> = ({stageId}) => {
+export const setARStageId = (id: number) => {
+  CURRENT_STAGE_ID = id;
+};
+
+ViroARTrackingTargets.createTargets({
+  marker: {
+    source: require('../../assets/images/logo-lootopia.png'),
+    orientation: 'Up',
+    physicalWidth: 0.1, // meters
+  },
+});
+
+ViroMaterials.createMaterials({
+  box: {
+    diffuseColor: '#FF0000',
+  },
+});
+
+// ✅ Scene component without props
+const ARScene = () => {
+  const stageId = CURRENT_STAGE_ID;
+
   const handleAnchorFound = async () => {
     try {
       const response = await validateStageByAR(stageId);
@@ -55,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ARScene;
+export default () => <ARScene />;

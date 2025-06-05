@@ -1,25 +1,23 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {useRoute, RouteProp} from '@react-navigation/native';
-import {ViroARSceneNavigator} from '@viro-community/react-viro';
+import {ViroARSceneNavigator} from '@reactvision/react-viro';
 import {RootStackParamList} from '../../navigation/types';
-import ARScene from './ARScene';
+import ARScene, {setARStageId} from './ARScene';
 
 type ARScanRouteProp = RouteProp<RootStackParamList, 'ARScan'>;
-
-const ARSceneWithProps = (props: {stageId: string}) => (
-  <ARScene stageId={Number(props.stageId)} />
-);
 
 const ARScanScreen = () => {
   const route = useRoute<ARScanRouteProp>();
   const {stageId} = route.params;
 
+  setARStageId(stageId);
+
   return (
     <ViroARSceneNavigator
       autofocus
       initialScene={{
-        scene: ARSceneWithProps.bind(null, {stageId: String(stageId)}),
+        scene: ARScene,
       }}
       style={styles.flex}
     />
