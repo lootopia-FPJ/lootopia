@@ -5,7 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import ModalDeleteAccount from '../components/ModalDeleteAccount'
-import { Wallet, ListChecks, Pencil, PlusCircle, Trash2 } from 'lucide-react'
+import { Wallet, ListChecks, Pencil, PlusCircle, Trash2, Backpack } from 'lucide-react'
 
 const Profile = () => {
   const { user } = useUser()
@@ -64,6 +64,14 @@ const Profile = () => {
         >
           <ListChecks size={18} />
           Mes chasses
+        </Button>
+        <Button
+          variant="primary"
+          className="w-full text-left flex items-center gap-2"
+          onClick={() => navigate('/mes-artefacts')}
+        >
+          <Backpack size={18} />
+          Mes artefacts
         </Button>
       </aside>
 

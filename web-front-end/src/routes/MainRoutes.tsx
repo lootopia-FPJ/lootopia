@@ -19,6 +19,7 @@ import MyHunts from '../pages/MyHunts'
 import Wallet from '../pages/Wallet'
 import Success from '../pages/Success'
 import Cancel from '../pages/Cancel'
+import MyArtefacts from '../pages/MyArtefacts'
 
 const MainRoutes = () => {
   return (
@@ -62,6 +63,14 @@ const MainRoutes = () => {
           element={
             <PrivateRoute>
               <MyHunts />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="mes-artefacts"
+          element={
+            <PrivateRoute>
+              <MyArtefacts />
             </PrivateRoute>
           }
         />
