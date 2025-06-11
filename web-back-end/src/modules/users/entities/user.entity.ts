@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm'
 import { Role } from './role.entity'
+import { UserArtefact } from '../../user-artefacts/entities/user-artefact.entity'
 
 export enum UserType {
   COMMUN = 'COMMUN',
@@ -51,4 +52,7 @@ export default class User {
     inverseJoinColumn: { name: 'role_id' },
   })
   roles!: Role[]
+
+  @OneToMany(() => UserArtefact, (userArtefact) => userArtefact.user)
+  userArtefacts!: UserArtefact[]
 }
