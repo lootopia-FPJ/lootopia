@@ -10,6 +10,14 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const { user, logout } = useUser()
 
+  const navLinks = [
+    { label: 'À propos', path: '/about' },
+    { label: 'Partenariat', path: '/partenariat' },
+    { label: 'Événements', path: '/evenement' },
+    { label: 'Boutique', path: '/boutique' },
+    { label: 'Contact', path: '/contact' },
+  ]
+
   return (
     <nav className="py-4 shadow-md fixed top-0 left-0 w-full z-50 bg-white">
       <div className="container mx-auto flex justify-between items-center px-4">
@@ -18,17 +26,16 @@ export default function Navbar() {
         </Link>
 
         <ul className="hidden lg:flex space-x-8 items-center">
-          {['À propos', 'Événement', 'Partenariat', 'Événements', 'Boutique', 'Contact'].map(
-            (item, index) => (
-              <li key={index}>
-                <Link to={`/${item.toLowerCase().replace(/\s+/g, '-')}`} className="navbar-link">
-                  <Button variant="ghost" className="navbar-button">
-                    {item}
-                  </Button>
-                </Link>
-              </li>
-            )
-          )}
+          {navLinks.map(({ label, path }) => (
+            <li key={path}>
+              <Link to={path} className="navbar-link">
+                <Button variant="ghost" className="navbar-button">
+                  {label}
+                </Button>
+              </Link>
+            </li>
+          ))}
+
           {user && (
             <>
               <li>
@@ -44,7 +51,7 @@ export default function Navbar() {
                   <Button
                     variant="destructive"
                     onClick={logout}
-                    className="navbar-button flex items-center "
+                    className="navbar-button flex items-center"
                   >
                     <LogOut size={20} />
                     <span>Déconnexion</span>
@@ -55,7 +62,7 @@ export default function Navbar() {
           )}
         </ul>
 
-        {/*burger */}
+        {/* Burger menu mobile */}
         <Button
           variant="ghost"
           className="navbar-button lg:hidden"
@@ -80,20 +87,17 @@ export default function Navbar() {
             <X size={28} />
           </Button>
 
-          {['À propos', 'Événement', 'Partenariat', 'Événements', 'Boutique', 'Contact'].map(
-            (item, index) => (
-              <Link
-                key={index}
-                to={`/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className="navbar-link text-lg"
-                onClick={() => setIsOpen(false)}
-              >
-                {item}
-              </Link>
-            )
-          )}
+          {navLinks.map(({ label, path }) => (
+            <Link
+              key={path}
+              to={path}
+              className="navbar-link text-lg"
+              onClick={() => setIsOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
 
-          {/* Mobile user profile & logout */}
           {user && (
             <>
               <Link

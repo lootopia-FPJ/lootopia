@@ -19,13 +19,14 @@ import MyHunts from '../pages/MyHunts'
 import Wallet from '../pages/Wallet'
 import Success from '../pages/Success'
 import Cancel from '../pages/Cancel'
+import MyArtefacts from '../pages/MyArtefacts'
 
 const MainRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="a-propos" element={<About />} />
+        <Route path="about" element={<About />} />
         <Route path="evenement" element={<Events />} />
         <Route path="partenariat" element={<Partnership />} />
         <Route path="boutique" element={<Boutique />} />
@@ -62,6 +63,14 @@ const MainRoutes = () => {
           element={
             <PrivateRoute>
               <MyHunts />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="mes-artefacts"
+          element={
+            <PrivateRoute>
+              <MyArtefacts />
             </PrivateRoute>
           }
         />
