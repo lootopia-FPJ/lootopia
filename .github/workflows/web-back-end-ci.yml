@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -25,10 +25,18 @@ jobs:
           cd ./web-back-end
           npm outdated || echo "No outdated dependencies found."
 
-      - name: Check dependency vulnerabilities
+      - name: Check dependency vulnerabilities (audit)
+        id: dependency_audit
+        continue-on-error: true
         run: |
           cd ./web-back-end
-          npm audit --audit-level=moderate || echo "Dependencies checked. Some may have vulnerabilities."
+          npm audit --audit-level=moderate --json > dependency-audit-report.json || true
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit-report
+          path: ./web-back-end/dependency-audit-report.json
 
       - name: Install dependencies
         run: cd ./web-back-end && npm install
@@ -46,10 +54,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
