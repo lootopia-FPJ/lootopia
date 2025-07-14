@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -34,6 +34,7 @@ const loginValidationSchema = yup.object().shape({
 const LoginScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const {setAuthenticated, setUser} = useUser();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (values: {email: string; password: string}) => {
     try {
@@ -100,13 +101,18 @@ const LoginScreen = () => {
             <View className="flex-row items-center border border-gray-300 rounded-md px-3 py-2 mb-2">
               <TextInput
                 placeholder="Mot de passe"
-                secureTextEntry
+                secureTextEntry={!showPassword}
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}
                 className="flex-1 text-base"
                 placeholderTextColor="#666"
               />
+              <TouchableOpacity onPress={() => setShowPassword(prev => !prev)}>
+                <Text className="text-blue-600 text-sm ml-2">
+                  {showPassword ? '🙈' : '👁️'}
+                </Text>
+              </TouchableOpacity>
             </View>
             {errors.password && touched.password && (
               <Text className="text-red-500 text-sm mb-2">
