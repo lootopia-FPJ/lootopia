@@ -14,6 +14,12 @@ export default class Stage {
   @Column()
   description!: string
 
+  @Column({ type: 'double precision', nullable: true })
+  latitude?: number
+
+  @Column({ type: 'double precision', nullable: true })
+  longitude?: number
+
   @ManyToOne(() => TreasureHunt, (treasureHunt) => treasureHunt.stages, { onDelete: 'CASCADE' })
   treasureHunt!: TreasureHunt
 

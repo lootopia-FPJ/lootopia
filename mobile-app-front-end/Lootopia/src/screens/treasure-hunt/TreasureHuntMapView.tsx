@@ -1,28 +1,38 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Alert, Platform} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
-import {useRoute, RouteProp} from '@react-navigation/native';
+import {useRoute, RouteProp, useNavigation} from '@react-navigation/native';
 import {getCachesByTreasureHunt} from '../../api/cacheApi';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import {getDistance} from 'geolib';
+import Geolocation from 'react-native-geolocation-service';
+import {Button} from '../../components/Button';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 type RootStackParamList = {
   TreasureHuntMapView: {treasureHuntId: number};
+  ARScan: {stageId: number};
+};
+
+type Cache = {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  description?: string;
 };
 
 type RouteProps = RouteProp<RootStackParamList, 'TreasureHuntMapView'>;
 
 export default function TreasureHuntMapView() {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProps>();
   const {treasureHuntId} = route.params;
 
-  const [caches, setCaches] = useState<any[]>([]);
+  const [caches, setCaches] = useState<Cache[]>([]);
+  const [nearbyStage, setNearbyStage] = useState<Cache | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getCachesByTreasureHunt(treasureHuntId);
-      setCaches(data);
-    };
-
     const requestLocationPermission = async () => {
       const permission =
         Platform.OS === 'ios'
@@ -41,9 +51,41 @@ export default function TreasureHuntMapView() {
       }
     };
 
-    requestLocationPermission();
-    fetchData();
-  }, [treasureHuntId]);
+    const fetchData = async () => {
+      const data = await getCachesByTreasureHunt(treasureHuntId);
+      setCaches(data);
+    };
+
+    const fetchLocationAndCheckProximity = () => {
+      Geolocation.getCurrentPosition(
+        position => {
+          const {latitude, longitude} = position.coords;
+
+          const nearby = caches.find(marker => {
+            const dist = getDistance(
+              {latitude, longitude},
+              {latitude: marker.latitude, longitude: marker.longitude},
+            );
+            return dist < 20;
+          });
+
+          setNearbyStage(nearby || null);
+        },
+        error => {
+          console.error('GPS error', error);
+        },
+        {enableHighAccuracy: true},
+      );
+    };
+
+    const init = async () => {
+      await requestLocationPermission();
+      await fetchData();
+      fetchLocationAndCheckProximity();
+    };
+
+    init();
+  }, [treasureHuntId, caches]);
 
   return (
     <View style={styles.container}>
@@ -68,6 +110,18 @@ export default function TreasureHuntMapView() {
           />
         ))}
       </MapView>
+
+      {nearbyStage && (
+        <View style={styles.nearbyStageContainer}>
+          <Button
+            type="destructive"
+            onPress={() =>
+              navigation.navigate('ARScan', {stageId: nearbyStage.id})
+            }>
+            🎯 Vous êtes proche de “{nearbyStage.name}” — Scanner en RA
+          </Button>
+        </View>
+      )}
     </View>
   );
 }
@@ -75,4 +129,5 @@ export default function TreasureHuntMapView() {
 const styles = StyleSheet.create({
   container: {flex: 1},
   map: {flex: 1},
+  nearbyStageContainer: {padding: 16},
 });
